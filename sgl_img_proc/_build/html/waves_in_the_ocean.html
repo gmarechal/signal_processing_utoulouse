@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Waves in the Ocean &#8212; Signals and Images Processing</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'waves_in_the_ocean';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Superposition of Monochromatic Waves" href="superposition_of_waves.html" />
+    <link rel="prev" title="Wave Properties" href="random_1d_wave.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo_univ_toulouse1.png" class="logo__image only-light" alt="Signals and Images Processing - Home"/>
+    <script>document.write(`<img src="_static/logo_univ_toulouse1.png" class="logo__image only-dark" alt="Signals and Images Processing - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to this Surface Waves in Geoscience Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Wave Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="random_1d_wave.html">Wave Properties</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Waves in the Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="superposition_of_waves.html">Superposition of Monochromatic Waves</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Surface Gravity Wave Analysis from In-Situ Platform</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="wave_by_wave_analysis.html">Wave Statistics based on wave-by-wave analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_spectral_analyses.html">First Spectral Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis_on_geo_record.html">Spectral Analysis on Geophysical Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="directional_spectrum.html">Directional Wave spectrum</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis of Tidal Signal</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tidal_wave.html">Tidal Waves</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tidal_analysis.html">Tide spectral analysis.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="harmonics_analysis.html">Harmonic Analysis of a Tidal Signal and Forecast</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fwaves_in_the_ocean.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/waves_in_the_ocean.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Waves in the Ocean</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-waves-that-we-do-not-see">The Waves that we do not see.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rossby-waves">Rossby Waves</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-waves">Internal Waves</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tides-external">Tides (external)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-invisible-to-the-naked-eye-waves">Other <em>invisible to the naked eye</em> waves:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-waves-that-we-do-see">The Waves that we do see.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-generation">Wave Generation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-propagation">Wave Propagation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-dissipation">Wave Dissipation</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="waves-in-the-ocean">
+<h1>Waves in the Ocean<a class="headerlink" href="#waves-in-the-ocean" title="Link to this heading">#</a></h1>
+<section id="the-waves-that-we-do-not-see">
+<h2>The Waves that we do not see.<a class="headerlink" href="#the-waves-that-we-do-not-see" title="Link to this heading">#</a></h2>
+<p>If you stand along the coast of the Mediterranean Sea or the Atlantic Ocean, waves are an obvious feature of the seascape. During stormy days, they cover the ocean surface with white patches extending to the horizon. These waves break both offshore and near the shore, often in plunging patterns when the sand bars are steep. They are likely the type of ocean wave most familiar to humanity, described for centuries in various accounts and literary works — from early testimonies to epics such as The <em>Odyssey</em> (8th century BCE). Yet, many other types of waves populate the ocean, some barely visible to the human eye.</p>
+<section id="rossby-waves">
+<h3>Rossby Waves<a class="headerlink" href="#rossby-waves" title="Link to this heading">#</a></h3>
+<p>These waves are both atmospheric and oceanic. Let’s focus on those in the ocean. They exist because of the Earth’s sphericity, which causes the Coriolis force to vary with latitude. This latitudinal gradient of the Coriolis parameter acts as the restoring force for these waves. These waves are generated because of an external disturbance of an amount of fluid parcels, displacing them northward or southward. The conservation of  the <em>absolute vorticity</em> of the parcels (the amount of intrinsic parcel rotation + the Coriolis-force-induced rotation) induces a westward motion of the water under the form of waves. These low-amplitude planetary waves, with wavelengths of thousands of kilometers, propagate slowly across the ocean. They can be observed from space using satellite-derived sea surface height measurements.</p>
+<figure class="align-default" id="rossby-wave">
+<a class="reference internal image-reference" href="_images/rossby_waves.gif"><img alt="_images/rossby_waves.gif" src="_images/rossby_waves.gif" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Observed equatorial Rossby waves and ENSO-related warm water volume changes in the equatorial Pacific Ocean from Altimetry (Journal: J. Geophys. Res., 113, C06003, doi:10.1029/2007JC004613)</span><a class="headerlink" href="#rossby-wave" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>More detail in Chapter 9 of <span id="id1">Cushman-Roisin and Beckers [<a class="reference internal" href="markdown.html#id4" title="Benoit Cushman-Roisin and Jean-Marie Beckers. Introduction to geophysical fluid dynamics: physical and numerical aspects. Volume 101. Academic press, 2011.">2011</a>]</span> and <span id="id2">Chelton and Schlax [<a class="reference internal" href="markdown.html#id9" title="Dudley B Chelton and Michael G Schlax. Global observations of oceanic rossby waves. Science, 272(5259):234–238, 1996.">1996</a>]</span>.</p>
+</section>
+<section id="internal-waves">
+<h3>Internal Waves<a class="headerlink" href="#internal-waves" title="Link to this heading">#</a></h3>
+<p>As their name suggests, these waves propagate within the ocean interior. They are primarily observed using moorings that record seawater temperature. Their wavelength (frequency) depend on their generation mechanism. Internal waves can be generated near the surface by wind forcing (indirectly), by the interaction of tidal currents with the continental slope or seamounts (internal tides), or by the interaction between subsurface currents and topographic features (named lee’s waves’). The restoring force for these waves is the ocean’s stratification—that is, the vertical distribution of density in the water column.</p>
+<figure class="align-default" id="internal-wave">
+<a class="reference internal image-reference" href="_images/internal_waves.png"><img alt="_images/internal_waves.png" src="_images/internal_waves.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Temperature data collected offshore Martha Vineyard from the (top) morning survey section and (bottom) afternoon section. The black dots on the left edge of each plot mark the nominal instrument depths, and the thick white line marks the depth where the temperature is 1°C less than the Sea Surface Temperature. The along-track distance increases moving onshore from south to north. (Journal: Farrar, J. T., C. J. Zappa, R. A. Weller, and A. T. Jessup (2007), Sea surface temperature signatures of oceanic internal waves in low winds, J. Geophys. Res., 112, C06014, doi:10.1029/2006JC003947.)</span><a class="headerlink" href="#internal-wave" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Although these waves propagate inside the ocean, they have a surface signature and, therefore, can be visible by satellites.</p>
+<p>More details in <span id="id3">LeBlond and Mysak [<a class="reference internal" href="markdown.html#id5" title="Paul H LeBlond and Lawrence A Mysak. Waves in the Ocean. Volume 20. Elsevier, 1981.">1981</a>]</span>.</p>
+<figure class="align-default" id="internal-wave-surface">
+<a class="reference internal image-reference" href="_images/internal_wave_surface.jpg"><img alt="_images/internal_wave_surface.jpg" src="_images/internal_wave_surface.jpg" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Optical image from ERS-1 of an internal wave train in the Gilbraltar Strait. Credit ESA.</span><a class="headerlink" href="#internal-wave-surface" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="tides-external">
+<h3>Tides (external)<a class="headerlink" href="#tides-external" title="Link to this heading">#</a></h3>
+<p>It may seem surprising to say that we cannot see these waves, yet their amplitude varies greatly depending on where we are on Earth. For instance, a regular swimmer in the Mediterranean would hardly notice any change in sea level due to tides, while for a Breton seafarer, tides are a central feature of daily life. From a human perspective, these waves have a period of roughly 12 hours—two high tides and two low tides per day—mainly driven by the gravitational attraction of the Moon. As we will see later in this module, the Moon-induced gravital force on the ocean is not the only source of tidal sea level variations. The propagation of tidal waves is influenced by bathymetry and the Coriolis force. The latter explains why the tidal range along the Normandy coast is much larger than on the opposite side of the English Channel. There are also locations in the ocean where the tidal sea surface height variations are nearly zero. These points, named <em>amphidromic points</em>, arise from the combined effects of basin geometry and the Coriolis force.</p>
+<figure class="align-default" id="tides">
+<a class="reference internal image-reference" href="_images/tide_amphidromic_points.jpg"><img alt="_images/tide_amphidromic_points.jpg" src="_images/tide_amphidromic_points.jpg" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Amphidromic points (locations where the heigh different between high and low tide is equal to 0). for the M2 harmonic. Picture credit: R. Ray, TOPEX/Poseidon: Revealing Hidden Tidal Energy GSFC, NASA. Redistribute with credit to R. Ray, as well as NASA-GSFC, NASA-JPL, Scientific Visualization Studio, and Television Production NASA-TV/GSFC</span><a class="headerlink" href="#tides" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>More details in <span id="id4">Simon [<a class="reference internal" href="markdown.html#id6">2007</a>]</span>.</p>
+</section>
+<section id="other-invisible-to-the-naked-eye-waves">
+<h3>Other <em>invisible to the naked eye</em> waves:<a class="headerlink" href="#other-invisible-to-the-naked-eye-waves" title="Link to this heading">#</a></h3>
+<p>If you are curious about ocean waves you can refer to the following references:</p>
+<ul class="simple">
+<li><p>Inertial waves (<span id="id5">Alford <em>et al.</em> [<a class="reference internal" href="markdown.html#id3" title="Matthew H Alford, Jennifer A MacKinnon, Harper L Simmons, and Jonathan D Nash. Near-inertial internal gravity waves in the ocean. Annual review of marine science, 8:95–123, 2016.">2016</a>]</span>)</p></li>
+<li><p>Coastal shelf and trapped waves (<span id="id6">Mysak [<a class="reference internal" href="markdown.html#id8" title="Lawrence A Mysak. Recent advances in shelf wave dynamics. Reviews of Geophysics, 18(1):211–241, 1980.">1980</a>]</span>)</p></li>
+<li><p>Infragravity waves (<span id="id7">Bertin <em>et al.</em> [<a class="reference internal" href="markdown.html#id7" title="Xavier Bertin, Anouk De Bakker, AP Van Dongeren, Giovanni Coco, Gael André, Fabrice Ardhuin, Philippe Bonneton, Frederic Bouchette, Bruno Castelle, Wayne C Crawford, and others. Infragravity waves: from driving mechanisms to impacts. Earth-Science Reviews, 177:774–799, 2018.">2018</a>]</span>)</p></li>
+<li><p>…</p></li>
+</ul>
+</section>
+</section>
+<section id="the-waves-that-we-do-see">
+<h2>The Waves that we do see.<a class="headerlink" href="#the-waves-that-we-do-see" title="Link to this heading">#</a></h2>
+<p>In the present module we will mainly focus on what we call surface gravity waves (SGW, waves), basically the waves you see when you go to the coast.</p>
+<figure class="align-default" id="flip">
+<a class="reference internal image-reference" href="_images/wave_field_FLIP.png"><img alt="_images/wave_field_FLIP.png" src="_images/wave_field_FLIP.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">An example of a wave system offshore. (credit: L.Grare)</span><a class="headerlink" href="#flip" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="wave-generation">
+<h3>Wave Generation<a class="headerlink" href="#wave-generation" title="Link to this heading">#</a></h3>
+<p>These waves are generated by the wind ({cite:t}phillips1957generation, miles1957generation). However, the processes responsible for the very first ripples produced by a wind gust remain an active area of research. The properties of waves strongly depend on the storm that generated them — including wind speed, the area over which the wind blew, and the duration of the event. If you live near the coast, you have probably noticed how sensitive the ocean surface is to changes in wind conditions.</p>
+</section>
+<section id="wave-propagation">
+<h3>Wave Propagation<a class="headerlink" href="#wave-propagation" title="Link to this heading">#</a></h3>
+<p>The wave propagation properties, such as their phase and group velocity can be described from the wave dispersion relationship. In this module, we will not derive this relationship, but it is an interesting exercise that involves differential fluid mechanics equations (for the curious!).</p>
+<div class="math notranslate nohighlight">
+\[
+\omega^2 = gktanh(kD),
+\]</div>
+<p>with g the acceleration due to the gravity, which acts as the restoring force of the waves, and D the depth below the wave field. From this relation you can compute the wave wavenumber (wavelength) for a given wave frequency (period). However, one can notice that this relationship cannot be inverted i.e., compute k from <span class="math notranslate nohighlight">\(\omega\)</span>. Fortunately, the <span class="math notranslate nohighlight">\(tanh\)</span> function can be approximated based on its argument (kD):</p>
+<ul class="simple">
+<li><p>If kD tends toward 1, we are in a shallow water regime and <span class="math notranslate nohighlight">\(\omega^2 \sim \sqrt{kD}k\)</span></p></li>
+<li><p>If kD tends toward a big number, therefore we are in a deep water regime and <span class="math notranslate nohighlight">\(\omega^2 \sim gk\)</span>.</p></li>
+<li><p>For intermediate water (kD<span class="math notranslate nohighlight">\(\sim\)</span> 1), the full expression of the dispersion relationship must be considered, and inverting it requires numerical methods (e.g., the Newton–Raphson method).</p></li>
+</ul>
+<figure class="align-default" id="dispersion-relationship-approximation">
+<a class="reference internal image-reference" href="_images/approx_dispersion_rel.png"><img alt="_images/approx_dispersion_rel.png" src="_images/approx_dispersion_rel.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Functional form of the dispersion relationship in shallow (left) and deep water (right) regime.</span><a class="headerlink" href="#dispersion-relationship-approximation" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="wave-dissipation">
+<h3>Wave Dissipation<a class="headerlink" href="#wave-dissipation" title="Link to this heading">#</a></h3>
+<p>If waves becomes too steep they can break. More specifically, these breakings occurs when the highest orbital velocity (the wave-induced motion of water particles) exceed the phase speed of the waves. It can be due to many different factors. When waves break they create these famous active ocean turbulence at the ocean surface and leave calm foam patches in the lee. Wave breakers and more generally waves play a crucial role in the air-sea Climate system by modulating the exchange of heat, momentum, and matter between the atmosphere and the ocean (<span id="id8">Cavaleri <em>et al.</em> [<a class="reference internal" href="markdown.html#id12" title="L Cavaleri, B Fox-Kemper, and M Hemer. Wind waves in the coupled climate system. Bulletin of the American Meteorological Society, 93(11):1651–1661, 2012.">2012</a>]</span>).</p>
+<p>The description of SGW provided in this jupyter book is not exhaustive at all, it represent only the theoretical materials needed for the coming tutorials. I highly recomend to the attendees to make their own literature. Some book to start: (<span id="id9">Ardhuin [<a class="reference internal" href="markdown.html#id13" title="Fabrice Ardhuin. Ocean waves in geosciences. Laboratoire d’Oceanographie Physique et Spatiale: Brest, France, 2020.">2020</a>], Holthuijsen [<a class="reference internal" href="markdown.html#id14" title="Leo H Holthuijsen. Waves in oceanic and coastal waters. Cambridge university press, 2010.">2010</a>], Miles [<a class="reference internal" href="markdown.html#id15" title="John W Miles. The dynamics of the upper ocean. by 0. m. phillips. cambridge uni-versity press, 1966. 261 pp. 60s. or $11.50. Journal of Fluid Mechanics, 29(4):822–825, 1967.">1967</a>]</span>).</p>
+<p>To summarize all, these waves can be described with an amplitude, wavelength, direction and phase. Note that the variable used to describe the waves is not necessary the height but can be temperature, current velocity, salinity, pressure, etc.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="random_1d_wave.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Wave Properties</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="superposition_of_waves.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Superposition of Monochromatic Waves</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-waves-that-we-do-not-see">The Waves that we do not see.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rossby-waves">Rossby Waves</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-waves">Internal Waves</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tides-external">Tides (external)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-invisible-to-the-naked-eye-waves">Other <em>invisible to the naked eye</em> waves:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-waves-that-we-do-see">The Waves that we do see.</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-generation">Wave Generation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-propagation">Wave Propagation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-dissipation">Wave Dissipation</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gwendal Marechal
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
