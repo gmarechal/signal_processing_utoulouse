@@ -1,0 +1,1426 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Spectral Analysis on Geophysical Data &#8212; Signals and Images Processing</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'spectral_analysis_on_geo_record';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Directional Wave spectrum" href="directional_spectrum.html" />
+    <link rel="prev" title="First Spectral Analyses" href="first_spectral_analyses.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo_univ_toulouse1.png" class="logo__image only-light" alt="Signals and Images Processing - Home"/>
+    <script>document.write(`<img src="_static/logo_univ_toulouse1.png" class="logo__image only-dark" alt="Signals and Images Processing - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to this Surface Waves in Geoscience Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Wave Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="random_1d_wave.html">Wave Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="waves_in_the_ocean.html">Waves in the Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="superposition_of_waves.html">Superposition of Monochromatic Waves</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Surface Gravity Wave Analysis from In-Situ Platform</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="wave_by_wave_analysis.html">Wave Statistics based on wave-by-wave analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_spectral_analyses.html">First Spectral Analyses</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Spectral Analysis on Geophysical Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="directional_spectrum.html">Directional Wave spectrum</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis of Tidal Signal</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tidal_wave.html">Tidal Waves</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tidal_analysis.html">Tide spectral analysis.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="harmonics_analysis.html">Harmonic Analysis of a Tidal Signal and Forecast</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fspectral_analysis_on_geo_record.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/spectral_analysis_on_geo_record.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Spectral Analysis on Geophysical Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-for-the-spectral-analysis">Functions for the Spectral Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wave-elevation-signal-the-signal-we-are-processing">The wave elevation signal. The signal we are processing.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plots-the-spectra">Plots the Spectra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-characteristics-let-s-spot-the-dominant-wave-frequencies-periods-and-the-significant-wave-height">Wave characteristics: let’s spot the dominant wave frequencies (periods) and the significant wave height</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainties">Uncertainties</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="spectral-analysis-on-geophysical-data">
+<h1>Spectral Analysis on Geophysical Data<a class="headerlink" href="#spectral-analysis-on-geophysical-data" title="Link to this heading">#</a></h1>
+<p>On the previous notebook we saw the easiest case of spectral analysis (distinct frequencies). Here we will push further the complexity by analysis real wave data. This analysis rely on wave elevation recorded by a buoy of the Costal Data Information Program (CDIP, same dataset used in the <a class="reference internal" href="wave_by_wave_analysis.html"><span class="std std-doc">previous notebook</span></a>). I made the choice to focus on data collected by the buoy offshore the San Francisco Bay, however, the present notebook can be applied to all the buoys of the program.</p>
+<p>Practically speaking, in this Notebook we perform:</p>
+<ul class="simple">
+<li><p>Download one-dimensional wave data</p></li>
+<li><p>Apply window over the signal to remove the spectral leakage</p></li>
+<li><p>Perform the Fourier Analysis</p></li>
+<li><p>Compute the Power Spectral Density of the signal</p></li>
+<li><p>Correct the windowing process, cc Parseval’s theorem</p></li>
+<li><p>Interpret the wave spectrum</p></li>
+<li><p>Compute the uncertainty of the spectrum</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_peaks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="functions-for-the-spectral-analysis">
+<h2>Functions for the Spectral Analysis<a class="headerlink" href="#functions-for-the-spectral-analysis" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create_UTC_axis</span><span class="p">(</span><span class="n">ds_xyz</span><span class="p">,</span> <span class="n">arrayIndex</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Create the time axis associated to the motion along x, y, and z dimension</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputs:</span>
+<span class="sd">    --------</span>
+<span class="sd">    ds_xyz: the xarray dataset that contain the motions</span>
+<span class="sd">    arrayIndex: The array of second</span>
+<span class="sd">    output:</span>
+<span class="sd">    --------</span>
+<span class="sd">    time_array: datetime64 object in s. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">arrayIndex</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">arrayIndex</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;nb_of_obs&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;timedelta64[s]&#39;</span><span class="p">)</span>
+
+    
+    <span class="n">sample_rate_sec</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ds_xyz</span><span class="o">.</span><span class="n">xyzSampleRate</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;timedelta64[s]&#39;</span><span class="p">)</span>
+    <span class="n">filter_delay_sec</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ds_xyz</span><span class="o">.</span><span class="n">xyzFilterDelay</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;timedelta64[s]&#39;</span><span class="p">)</span>
+    <span class="n">time_axis</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">arrayIndex</span><span class="o">/</span><span class="n">sample_rate_sec</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="s1">&#39;s&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;timedelta64[s]&#39;</span><span class="p">)</span>
+
+    <span class="n">time_array</span> <span class="o">=</span> <span class="n">ds_xyz</span><span class="o">.</span><span class="n">xyzStartTime</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">time_axis</span> <span class="o">-</span> <span class="n">filter_delay_sec</span>
+    <span class="k">return</span> <span class="n">time_array</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wave_frequency_spectrum</span><span class="p">(</span><span class="n">elevation</span><span class="p">,</span> <span class="n">Fs</span> <span class="o">=</span> <span class="mf">1.2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Perform the frequency spectrum of the elevation signal</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputs:</span>
+<span class="sd">    --------</span>
+<span class="sd">    elevation: the motion along z (elevation induced by waves)</span>
+<span class="sd">    Fs: The sampling frequency</span>
+<span class="sd">    </span>
+<span class="sd">    output:</span>
+<span class="sd">    --------</span>
+<span class="sd">     freq: the frequency axis</span>
+<span class="sd">     spec_corr: the wave frequency spectrum. _corr stand for correction of the windowing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">nfft</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevation</span><span class="p">)</span>  <span class="c1"># The number of point for the spectral analysis</span>
+    
+    <span class="n">Nf</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># The number of frequencies</span>
+    <span class="c1"># Nf = 200</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">Fs</span><span class="o">/</span><span class="n">nfft</span>  <span class="c1"># The spectral resolution</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">df</span><span class="o">*</span><span class="p">(</span><span class="n">Nf</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">Nf</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># Define the frequency axis</span>
+
+    <span class="c1">#########</span>
+    <span class="c1"># --- The heart of the spectral analysis</span>
+    <span class="c1">#########</span>
+    
+    <span class="n">hanningt</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nfft</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nfft</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">nfft</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>  <span class="c1"># Hanning window</span>
+    <span class="n">wc2t</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">hanningt</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Correction factor</span>
+    <span class="n">Zw</span> <span class="o">=</span> <span class="p">(</span><span class="n">elevation</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">elevation</span><span class="p">))</span> <span class="o">*</span> <span class="n">hanningt</span>  <span class="c1"># Apply the window to avoid spectral leakage (put to 0 the extrema) + detrend</span>
+    <span class="n">Zf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">Zw</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">nfft</span>  <span class="c1"># Apply the Fourier Transform</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Zf</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">df</span>  <span class="c1"># Compute the power spectral density</span>
+    <span class="n">spec_folded</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">spec</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">Nf</span><span class="p">]</span>
+
+    <span class="n">hs_spec</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">spec_folded</span><span class="p">)</span><span class="o">*</span><span class="n">df</span><span class="p">)</span>
+    <span class="c1">#print(f&#39;The significant wave height associated to the spectrum is {hs_spec} m&#39;)</span>
+    <span class="c1">#print(&#39;\n&#39;)</span>
+    <span class="c1">#print(f&#39;The significant wave height associated to the elevation is {4 * np.sqrt(elevation.var())} m&#39;)</span>
+
+    <span class="n">spec_corr</span> <span class="o">=</span>  <span class="n">spec_folded</span> <span class="o">*</span> <span class="n">wc2t</span>  <span class="c1"># Correct the spectrum</span>
+    <span class="n">hs_spec_corr</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">spec_corr</span><span class="p">)</span><span class="o">*</span><span class="n">df</span><span class="p">)</span>
+    <span class="c1">#print(f&#39;The significant wave height associated to the spectrum is {hs_spec_corr} m&#39;)</span>
+
+    <span class="k">return</span> <span class="n">freq</span><span class="p">,</span> <span class="n">spec_corr</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wave_frequency_spectrum_overlap</span><span class="p">(</span><span class="n">elevation</span><span class="p">,</span> <span class="n">overlap</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span>  <span class="n">Fs</span> <span class="o">=</span> <span class="mf">1.2</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Perform the frequency spectrum of the elevation signal with the signal cut in segments with overlap</span>
+<span class="sd">    ----------</span>
+<span class="sd">    inputs:</span>
+<span class="sd">    --------</span>
+<span class="sd">    elevation: the motion along z (elevation induced by waves)</span>
+<span class="sd">    overlap: the overlap between segments in %</span>
+<span class="sd">    nfft: tthe number of point per segments</span>
+<span class="sd">    Fs: The sampling frequency</span>
+<span class="sd">    </span>
+<span class="sd">    output:</span>
+<span class="sd">    --------</span>
+<span class="sd">     freq: the frequency axis</span>
+<span class="sd">     spec_corr_mean: the mean wave frequency spectrum. _corr stand for correction of the windowing</span>
+<span class="sd">    &quot;&quot;&quot;</span>  
+    <span class="n">Nf</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># The number of frequencies</span>
+    <span class="n">NS1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevation</span><span class="p">)</span><span class="o">//</span><span class="n">nfft</span> <span class="c1"># The number point per segment</span>
+    <span class="n">ov</span> <span class="o">=</span> <span class="n">overlap</span><span class="o">/</span><span class="mi">100</span> <span class="c1"># percentage of overlap between segments</span>
+    <span class="n">NS</span> <span class="o">=</span> <span class="n">NS1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">ov</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ov</span> <span class="c1"># number of point per segment</span>
+    
+    <span class="n">Eh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">NS</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># Initialize array of NS pts</span>
+    <span class="n">hanningt</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nfft</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nfft</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">nfft</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span> <span class="c1"># Hanning window</span>
+
+    <span class="n">H</span> <span class="o">=</span> <span class="n">hanningt</span> <span class="o">*</span> <span class="n">Eh</span> <span class="c1"># 1d window</span>
+    <span class="n">elevmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nfft</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">NS</span><span class="p">)))</span> <span class="c1"># initialize matrix of length of spectrum times n_seg</span>
+    <span class="n">vec_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">NS</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;We chunk the signal into </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">NS</span><span class="p">)</span><span class="si">}</span><span class="s1"> windows&#39;</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">Fs</span><span class="o">/</span><span class="n">nfft</span> <span class="c1"># frequency resolution</span>
+    <span class="c1"># freq = np.linspace(df, df*(Nf-1), (Nf - 1)) # frequency axis</span>
+
+    <span class="k">for</span> <span class="n">iw</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vec_i</span><span class="p">)):</span> <span class="c1"># fill matrix of sub sample</span>
+        <span class="n">nstart</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">iw</span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ov</span><span class="p">)</span> <span class="o">*</span> <span class="n">nfft</span><span class="p">)</span>
+        <span class="n">nend</span> <span class="o">=</span> <span class="n">nstart</span> <span class="o">+</span> <span class="n">nfft</span>
+        <span class="n">elevmat</span><span class="p">[:,</span> <span class="n">iw</span><span class="p">]</span> <span class="o">=</span> <span class="n">elevation</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">nstart</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">nend</span><span class="p">)]</span>
+
+    <span class="n">Nf2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevmat</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">//</span><span class="mi">2</span> <span class="c1"># I take the last window, but any one work</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">df</span><span class="o">*</span><span class="p">(</span><span class="n">Nf2</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">Nf2</span><span class="p">))</span> <span class="c1"># frequency axis</span>
+
+    <span class="n">elevmat2</span> <span class="o">=</span> <span class="n">elevmat</span><span class="o">.</span><span class="n">T</span>
+    
+    <span class="n">wc2t</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">hanningt</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># correction factor</span>
+    <span class="n">Zw</span> <span class="o">=</span> <span class="p">(</span><span class="n">elevmat2</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">elevmat2</span><span class="p">))</span> <span class="o">*</span> <span class="n">hanningt</span> <span class="c1"># Windowed signals + remove trend</span>
+
+    <span class="n">Zf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">Zw</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">nfft</span> <span class="c1"># Fourier transform of the windowed signals</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Zf</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>  <span class="o">/</span> <span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="c1"># Power spectral density of the spectra</span>
+    <span class="n">spec_folded</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">spec</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># Fold the spectrum</span>
+    <span class="n">spec_corr</span> <span class="o">=</span> <span class="n">spec_folded</span> <span class="o">*</span> <span class="n">wc2t</span> <span class="c1"># correct the spectrum because of window</span>
+    <span class="n">spec_corr_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec_corr</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="c1"># mean spectrum</span>
+
+    <span class="k">return</span> <span class="n">freq</span><span class="p">,</span> <span class="n">spec_corr_mean</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">confident_interval_spec_95</span><span class="p">(</span><span class="n">Ef</span><span class="p">,</span> <span class="n">n_spec</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; The 95% confident interval of the spectrum</span>
+<span class="sd">    input: </span>
+<span class="sd">    Ef: The Power Spectral Density (PSD)</span>
+<span class="sd">    n_spec: Number of spectra used for the mean PSD</span>
+<span class="sd">    </span>
+<span class="sd">    outputs:</span>
+<span class="sd">    Ef_low: The low PSD</span>
+<span class="sd">    Ef_up: The up PSD</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">low_bound</span><span class="o">=</span><span class="mf">0.025</span>
+    <span class="n">up_bound</span><span class="o">=</span><span class="mf">0.975</span>
+    <span class="n">Ef_low</span><span class="o">=</span><span class="n">chi2</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">low_bound</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">n_spec</span><span class="p">)</span><span class="o">*</span><span class="n">Ef</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n_spec</span><span class="p">)</span>
+    <span class="n">Ef_up</span><span class="o">=</span><span class="n">chi2</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">up_bound</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">n_spec</span><span class="p">)</span><span class="o">*</span><span class="n">Ef</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n_spec</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">Ef_low</span><span class="p">,</span><span class="n">Ef_up</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-data">
+<h2>Load data<a class="headerlink" href="#load-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_url_data</span> <span class="o">=</span> <span class="s1">&#39;./data/motion_wave_data_cdip.nc&#39;</span>
+<span class="n">file_url_param</span> <span class="o">=</span> <span class="s1">&#39;./data/spectral_wave_data_cdip.nc&#39;</span>
+
+<span class="n">ds_buoy</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_url_data</span><span class="p">)</span>
+<span class="n">ds_operationel</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_url_param</span><span class="p">)</span>
+
+<span class="n">n_data</span> <span class="o">=</span> <span class="mi">3000</span>
+
+<span class="n">arrayIndex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_data</span><span class="p">,</span> <span class="n">n_data</span><span class="p">)</span> <span class="c1"># an array of ~ 30 min</span>
+<span class="n">time_UTC</span> <span class="o">=</span> <span class="n">create_UTC_axis</span><span class="p">(</span><span class="n">ds_buoy</span><span class="p">,</span> <span class="n">arrayIndex</span><span class="p">)</span>
+<span class="n">elevation</span> <span class="o">=</span>  <span class="n">ds_buoy</span><span class="o">.</span><span class="n">xyzZDisplacement</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">arrayIndex</span><span class="p">)]</span> <span class="c1"># work on a 30 min window</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_operation_sel</span> <span class="o">=</span> <span class="n">ds_operationel</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">waveTime</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">time_UTC</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">time_UTC</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span> <span class="c1"># Select a record length of n_data obs.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_operation_sel</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in notebooks */
+
+:root {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base rgba(0, 0, 0, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(0, 0, 0, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, white)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, white) h s calc(l - 15))
+  );
+}
+
+html[theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+body.vscode-dark {
+  --xr-font-color0: var(
+    --jp-content-font-color0,
+    var(--pst-color-text-base, rgba(255, 255, 255, 1))
+  );
+  --xr-font-color2: var(
+    --jp-content-font-color2,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.54))
+  );
+  --xr-font-color3: var(
+    --jp-content-font-color3,
+    var(--pst-color-text-base, rgba(255, 255, 255, 0.38))
+  );
+  --xr-border-color: var(
+    --jp-border-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 10))
+  );
+  --xr-disabled-color: var(
+    --jp-layout-color3,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 40))
+  );
+  --xr-background-color: var(
+    --jp-layout-color0,
+    var(--pst-color-on-background, #111111)
+  );
+  --xr-background-color-row-even: var(
+    --jp-layout-color1,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 5))
+  );
+  --xr-background-color-row-odd: var(
+    --jp-layout-color2,
+    hsl(from var(--pst-color-on-background, #111111) h s calc(l + 15))
+  );
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-obj-name,
+.xr-group-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-group-name::before {
+  content: "📁";
+  padding-right: 0.3em;
+}
+
+.xr-group-name,
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+  height: 0;
+  margin: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+  border: 2px solid transparent !important;
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0) !important;
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: "►";
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: "▼";
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-group-box {
+  display: inline-grid;
+  grid-template-columns: 0px 20px auto;
+  width: 100%;
+}
+
+.xr-group-box-vline {
+  grid-column-start: 1;
+  border-right: 0.2em solid;
+  border-color: var(--xr-border-color);
+  width: 0px;
+}
+
+.xr-group-box-hline {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  height: 1em;
+  width: 20px;
+  border-bottom: 0.2em solid;
+  border-color: var(--xr-border-color);
+}
+
+.xr-group-box-contents {
+  grid-column-start: 3;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: "(";
+}
+
+.xr-dim-list:after {
+  content: ")";
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ",";
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  border-color: var(--xr-background-color-row-odd);
+  margin-bottom: 0;
+  padding-top: 2px;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+  border-color: var(--xr-background-color-row-even);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  border-top: 2px dotted var(--xr-background-color);
+  padding-bottom: 20px !important;
+  padding-top: 10px !important;
+}
+
+.xr-var-attrs-in + label,
+.xr-var-data-in + label,
+.xr-index-data-in + label {
+  padding: 0 1px;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-data > pre,
+.xr-index-data > pre,
+.xr-var-data > table > tbody > tr {
+  background-color: transparent !important;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.xr-var-attrs-in:checked + label > .xr-icon-file-text2,
+.xr-var-data-in:checked + label > .xr-icon-database,
+.xr-index-data-in:checked + label > .xr-icon-database {
+  color: var(--xr-font-color0);
+  filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
+  stroke-width: 0.8px;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 334kB
+Dimensions:                     (sourceCount: 1951, waveTime: 2,
+                                 metaBoundsCount: 2, waveFrequency: 64,
+                                 sstTime: 1950, gpsTime: 1950, dwrTime: 1950)
+Coordinates:
+  * waveTime                    (waveTime) datetime64[ns] 16B 2025-09-06T22:0...
+  * waveFrequency               (waveFrequency) float32 256B 0.025 0.03 ... 0.58
+  * sstTime                     (sstTime) datetime64[ns] 16kB 2025-09-06T22:2...
+  * gpsTime                     (gpsTime) datetime64[ns] 16kB 2025-09-06T22:2...
+  * dwrTime                     (dwrTime) datetime64[ns] 16kB 2025-09-06T22:0...
+    metaDeployLatitude          float32 4B ...
+    metaDeployLongitude         float32 4B ...
+Dimensions without coordinates: sourceCount, metaBoundsCount
+Data variables: (12/51)
+    sourceFilename              (sourceCount) object 16kB ...
+    waveTimeBounds              (waveTime, metaBoundsCount) datetime64[ns] 32B ...
+    waveFlagPrimary             (waveTime) float32 8B ...
+    waveFlagSecondary           (waveTime) float32 8B ...
+    waveHs                      (waveTime) float32 8B ...
+    waveTp                      (waveTime) float32 8B ...
+    ...                          ...
+    metaStationName             |S28 28B ...
+    metaPlatform                |S1 1B ...
+    metaInstrumentation         |S1 1B ...
+    metaWaterDepth              float32 4B ...
+    metaDeclination             float32 4B ...
+    metaGridMapping             |S1 1B ...
+Attributes: (12/66)
+    naming_authority:                edu.ucsd.cdip
+    keywords_vocabulary:             Global Change Master Directory (GCMD) Ea...
+    date_created:                    2025-10-17T16:30:22Z
+    date_issued:                     2025-10-17T16:30:22Z
+    date_modified:                   2025-10-17T16:30:22Z
+    creator_name:                    Coastal Data Information Program, SIO/UCSD
+    ...                              ...
+    time_coverage_resolution:        PT30M
+    source:                          insitu observations
+    instrument:                      metaInstrumentation
+    platform:                        wave_buoy
+    platform_vocabulary:             http://mmisw.org/ont/ioos/platform
+    platform_name:                   POINT REYES, CA BUOY - 029p1</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-fc2a0978-ed85-42b8-8096-5afd07a052e2' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-fc2a0978-ed85-42b8-8096-5afd07a052e2' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span>sourceCount</span>: 1951</li><li><span class='xr-has-index'>waveTime</span>: 2</li><li><span>metaBoundsCount</span>: 2</li><li><span class='xr-has-index'>waveFrequency</span>: 64</li><li><span class='xr-has-index'>sstTime</span>: 1950</li><li><span class='xr-has-index'>gpsTime</span>: 1950</li><li><span class='xr-has-index'>dwrTime</span>: 1950</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-0b7240f9-108a-46bd-b23a-919e75d3d560' class='xr-section-summary-in' type='checkbox'  checked><label for='section-0b7240f9-108a-46bd-b23a-919e75d3d560' class='xr-section-summary' >Coordinates: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>waveTime</span></div><div class='xr-var-dims'>(waveTime)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2025-09-06T22:00:00 2025-09-06T2...</div><input id='attrs-0b8792f1-3b5f-4f18-b105-0304c9ca0bca' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0b8792f1-3b5f-4f18-b105-0304c9ca0bca' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0ce443d7-a1ea-417e-8cac-7b7dc6ce34d7' class='xr-var-data-in' type='checkbox'><label for='data-0ce443d7-a1ea-417e-8cac-7b7dc6ce34d7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>UTC sample start time</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd><dt><span>bounds :</span></dt><dd>waveTimeBounds</dd><dt><span>comment :</span></dt><dd>Spectral processing performed on 1600-second samples specified by waveTimeBounds.</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;2025-09-06T22:00:00.000000000&#x27;, &#x27;2025-09-06T22:30:00.000000000&#x27;],
+      dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>waveFrequency</span></div><div class='xr-var-dims'>(waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.025 0.03 0.035 ... 0.56 0.57 0.58</div><input id='attrs-9e42761f-7d0d-4bfd-a97d-cb8920142722' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9e42761f-7d0d-4bfd-a97d-cb8920142722' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d4146435-0073-4c5e-af8a-aa51a1cdb6e2' class='xr-var-data-in' type='checkbox'><label for='data-d4146435-0073-4c5e-af8a-aa51a1cdb6e2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band center frequency</dd><dt><span>units :</span></dt><dd>hertz</dd><dt><span>standard_name :</span></dt><dd>wave_frequency</dd><dt><span>bounds :</span></dt><dd>waveFrequencyBounds</dd></dl></div><div class='xr-var-data'><pre>array([0.025  , 0.03   , 0.035  , 0.04   , 0.045  , 0.05   , 0.055  , 0.06   ,
+       0.065  , 0.07   , 0.075  , 0.08   , 0.085  , 0.09   , 0.095  , 0.10125,
+       0.11   , 0.12   , 0.13   , 0.14   , 0.15   , 0.16   , 0.17   , 0.18   ,
+       0.19   , 0.2    , 0.21   , 0.22   , 0.23   , 0.24   , 0.25   , 0.26   ,
+       0.27   , 0.28   , 0.29   , 0.3    , 0.31   , 0.32   , 0.33   , 0.34   ,
+       0.35   , 0.36   , 0.37   , 0.38   , 0.39   , 0.4    , 0.41   , 0.42   ,
+       0.43   , 0.44   , 0.45   , 0.46   , 0.47   , 0.48   , 0.49   , 0.5    ,
+       0.51   , 0.52   , 0.53   , 0.54   , 0.55   , 0.56   , 0.57   , 0.58   ],
+      dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>sstTime</span></div><div class='xr-var-dims'>(sstTime)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2025-09-06T22:28:20 ... 2025-10-...</div><input id='attrs-9cdeeaae-1bec-42fe-b524-e5eac004f06b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9cdeeaae-1bec-42fe-b524-e5eac004f06b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a3996dec-b252-4636-86de-44995bdb2503' class='xr-var-data-in' type='checkbox'><label for='data-a3996dec-b252-4636-86de-44995bdb2503' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>UTC sample time</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd><dt><span>bounds :</span></dt><dd>sstTimeBounds</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;2025-09-06T22:28:20.000000000&#x27;, &#x27;2025-09-06T22:58:20.000000000&#x27;,
+       &#x27;2025-09-06T23:28:20.000000000&#x27;, ..., &#x27;2025-10-17T15:28:20.000000000&#x27;,
+       &#x27;2025-10-17T15:58:20.000000000&#x27;, &#x27;2025-10-17T16:28:20.000000000&#x27;],
+      shape=(1950,), dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>gpsTime</span></div><div class='xr-var-dims'>(gpsTime)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2025-09-06T22:21:00 ... 2025-10-...</div><input id='attrs-f2768f46-88f8-46d6-b4c6-a6bbda26f6a2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f2768f46-88f8-46d6-b4c6-a6bbda26f6a2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d70eaaaf-00e2-421f-a179-b153a21df508' class='xr-var-data-in' type='checkbox'><label for='data-d70eaaaf-00e2-421f-a179-b153a21df508' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>UTC sample time</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd><dt><span>bounds :</span></dt><dd>gpsTimeBounds</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;2025-09-06T22:21:00.000000000&#x27;, &#x27;2025-09-06T22:51:00.000000000&#x27;,
+       &#x27;2025-09-06T23:21:00.000000000&#x27;, ..., &#x27;2025-10-17T15:21:00.000000000&#x27;,
+       &#x27;2025-10-17T15:51:00.000000000&#x27;, &#x27;2025-10-17T16:21:00.000000000&#x27;],
+      shape=(1950,), dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>dwrTime</span></div><div class='xr-var-dims'>(dwrTime)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2025-09-06T22:00:00 ... 2025-10-...</div><input id='attrs-4593a241-e546-40a6-9f73-860902f4c5de' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4593a241-e546-40a6-9f73-860902f4c5de' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6e6f797a-68a1-47b4-8b59-4ec3ced596c5' class='xr-var-data-in' type='checkbox'><label for='data-6e6f797a-68a1-47b4-8b59-4ec3ced596c5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>UTC sample time</dd><dt><span>standard_name :</span></dt><dd>time</dd><dt><span>axis :</span></dt><dd>T</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd><dt><span>bounds :</span></dt><dd>dwrTimeBounds</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;2025-09-06T22:00:00.000000000&#x27;, &#x27;2025-09-06T22:30:00.000000000&#x27;,
+       &#x27;2025-09-06T23:00:00.000000000&#x27;, ..., &#x27;2025-10-17T15:00:00.000000000&#x27;,
+       &#x27;2025-10-17T15:30:00.000000000&#x27;, &#x27;2025-10-17T16:00:00.000000000&#x27;],
+      shape=(1950,), dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>metaDeployLatitude</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-0444ef3d-0903-4681-a343-783b581165cf' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0444ef3d-0903-4681-a343-783b581165cf' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2067c5d5-f0ff-4e37-a391-1d78e1f6b9e2' class='xr-var-data-in' type='checkbox'><label for='data-2067c5d5-f0ff-4e37-a391-1d78e1f6b9e2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>valid_min :</span></dt><dd>-90.0</dd><dt><span>valid_max :</span></dt><dd>90.0</dd><dt><span>axis :</span></dt><dd>Y</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd><dt><span>ncei_name :</span></dt><dd>LATITUDE</dd><dt><span>long_name :</span></dt><dd>deployment latitude</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>metaDeployLongitude</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-89f276da-3150-4d37-b081-f246f75bf03a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-89f276da-3150-4d37-b081-f246f75bf03a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-be326a5a-6c18-404e-b738-6a951dcdea55' class='xr-var-data-in' type='checkbox'><label for='data-be326a5a-6c18-404e-b738-6a951dcdea55' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>valid_min :</span></dt><dd>-180.0</dd><dt><span>valid_max :</span></dt><dd>180.0</dd><dt><span>axis :</span></dt><dd>X</dd><dt><span>coverage_content_type :</span></dt><dd>coordinate</dd><dt><span>ncei_name :</span></dt><dd>LONGITUDE</dd><dt><span>long_name :</span></dt><dd>deployment longitude</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=float32]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-95d0c063-e8f9-460b-9ef4-e58f8792b948' class='xr-section-summary-in' type='checkbox'  ><label for='section-95d0c063-e8f9-460b-9ef4-e58f8792b948' class='xr-section-summary' >Data variables: <span>(51)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>sourceFilename</span></div><div class='xr-var-dims'>(sourceCount)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-542a45de-2cf1-4d66-aaf8-67a31e2332d0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-542a45de-2cf1-4d66-aaf8-67a31e2332d0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-777c8092-8693-4b05-8068-1787d49ac881' class='xr-var-data-in' type='checkbox'><label for='data-777c8092-8693-4b05-8068-1787d49ac881' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>source file name</dd></dl></div><div class='xr-var-data'><pre>[1951 values with dtype=object]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveTimeBounds</span></div><div class='xr-var-dims'>(waveTime, metaBoundsCount)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-c645a5a6-9523-4f79-a2a3-03241308cfa1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c645a5a6-9523-4f79-a2a3-03241308cfa1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a74fa767-3447-482f-a048-d413d3b8ca41' class='xr-var-data-in' type='checkbox'><label for='data-a74fa767-3447-482f-a048-d413d3b8ca41' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time cell bounds</dd><dt><span>coverage_content_type :</span></dt><dd>auxiliaryInformation</dd></dl></div><div class='xr-var-data'><pre>[4 values with dtype=datetime64[ns]]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveFlagPrimary</span></div><div class='xr-var-dims'>(waveTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-0f6a8537-392a-409f-a30e-10e4035075f4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0f6a8537-392a-409f-a30e-10e4035075f4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-40da7f58-2ceb-44cf-a02e-d2e0ddea2280' class='xr-var-data-in' type='checkbox'><label for='data-40da7f58-2ceb-44cf-a02e-d2e0ddea2280' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>primary wave QC flag</dd><dt><span>standard_name :</span></dt><dd>status_flag</dd><dt><span>valid_min :</span></dt><dd>1</dd><dt><span>valid_max :</span></dt><dd>9</dd><dt><span>flag_values :</span></dt><dd>[1 2 3 4 9]</dd><dt><span>flag_meanings :</span></dt><dd>good not_evaluated questionable bad missing</dd><dt><span>reference :</span></dt><dd>Ocean Data Standards, UNESCO 2013 - IOC Manuals and Guides, 54, Volume 3 Version 1</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagSecondary</dd><dt><span>coverage_content_type :</span></dt><dd>qualityInformation</dd></dl></div><div class='xr-var-data'><pre>[2 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveFlagSecondary</span></div><div class='xr-var-dims'>(waveTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-a8afb81b-887e-46df-be50-fc80a2fbba81' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a8afb81b-887e-46df-be50-fc80a2fbba81' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c74539a0-2011-4ca6-8d0f-ef53d4bdbfdf' class='xr-var-data-in' type='checkbox'><label for='data-c74539a0-2011-4ca6-8d0f-ef53d4bdbfdf' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>secondary wave QC flag</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>18</dd><dt><span>flag_values :</span></dt><dd>[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18]</dd><dt><span>flag_meanings :</span></dt><dd>unspecified sensor_issues Hs_out_of_range Tp_out_of_range Ta_out_of_range elevated_check_factors Hs_spike Ta_spike low_freq_energy_spike excessive_low_freq_energy hf_transmission_errors_fixed hf_transmission_errors_present directional_coeffs_out_of_range incomplete_spectrum spectrum_layout_modified too_few_segments inclination_off max_energy_at_highest_freq freq_over_hull_response_limit</dd><dt><span>reference :</span></dt><dd>http://cdip.ucsd.edu/documentation</dd><dt><span>coverage_content_type :</span></dt><dd>qualityInformation</dd></dl></div><div class='xr-var-data'><pre>[2 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveHs</span></div><div class='xr-var-dims'>(waveTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-3a95ba1d-abe2-4c23-bf05-4dc814faabb1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3a95ba1d-abe2-4c23-bf05-4dc814faabb1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-83c3c18e-faa2-475d-acaa-eff55602782f' class='xr-var-data-in' type='checkbox'><label for='data-83c3c18e-faa2-475d-acaa-eff55602782f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>significant wave height</dd><dt><span>units :</span></dt><dd>meter</dd><dt><span>standard_name :</span></dt><dd>sea_surface_wave_significant_height</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>0.0</dd><dt><span>valid_max :</span></dt><dd>20.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>WAVE HEIGHT - SIGNIFICANT</dd></dl></div><div class='xr-var-data'><pre>[2 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveTp</span></div><div class='xr-var-dims'>(waveTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-e52e6bfc-0313-4761-ad9c-faabee71b68f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e52e6bfc-0313-4761-ad9c-faabee71b68f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9c3d91f5-5ecf-4405-ae45-af468397fc13' class='xr-var-data-in' type='checkbox'><label for='data-9c3d91f5-5ecf-4405-ae45-af468397fc13' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>peak wave period</dd><dt><span>units :</span></dt><dd>second</dd><dt><span>standard_name :</span></dt><dd>sea_surface_wave_period_at_variance_spectral_density_maximum</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>0.0</dd><dt><span>valid_max :</span></dt><dd>40.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>WAVE - PEAK PERIOD</dd></dl></div><div class='xr-var-data'><pre>[2 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveTa</span></div><div class='xr-var-dims'>(waveTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-37b0e1c4-587f-40c7-8e8d-de9afe514360' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-37b0e1c4-587f-40c7-8e8d-de9afe514360' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-77b2f222-43f7-42f4-b90e-ec355fecc5c6' class='xr-var-data-in' type='checkbox'><label for='data-77b2f222-43f7-42f4-b90e-ec355fecc5c6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>average wave period</dd><dt><span>units :</span></dt><dd>second</dd><dt><span>standard_name :</span></dt><dd>sea_surface_wave_mean_period_from_variance_spectral_density_first_frequency_moment</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>0.0</dd><dt><span>valid_max :</span></dt><dd>40.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>WAVE PERIOD - AVERAGE</dd><dt><span>additional_processing :</span></dt><dd>Calculated from the full-spectrum, buoy-returned energy density values.</dd></dl></div><div class='xr-var-data'><pre>[2 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveDp</span></div><div class='xr-var-dims'>(waveTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-27a4c9e1-c9c4-442d-9967-7202583bf1f6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-27a4c9e1-c9c4-442d-9967-7202583bf1f6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-95f5dddb-7ef7-40e2-9496-f37c896d0ffb' class='xr-var-data-in' type='checkbox'><label for='data-95f5dddb-7ef7-40e2-9496-f37c896d0ffb' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>peak wave direction</dd><dt><span>units :</span></dt><dd>degreeT</dd><dt><span>standard_name :</span></dt><dd>sea_surface_wave_from_direction_at_variance_spectral_density_maximum</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>0.0</dd><dt><span>valid_max :</span></dt><dd>360.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>WAVE DIRECTION</dd><dt><span>additional_processing :</span></dt><dd>Magnetic declination - INT(metaDeclination) - added to buoy-returned direction to shift to degrees true.</dd></dl></div><div class='xr-var-data'><pre>[2 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>wavePeakPSD</span></div><div class='xr-var-dims'>(waveTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-f7a88e24-7674-4b1e-bd19-d6da43cee310' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f7a88e24-7674-4b1e-bd19-d6da43cee310' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-67cf7870-72dd-477f-8a0f-f53d0a403e9a' class='xr-var-data-in' type='checkbox'><label for='data-67cf7870-72dd-477f-8a0f-f53d0a403e9a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>peak wave power spectral density</dd><dt><span>units :</span></dt><dd>m*m/hertz</dd><dt><span>standard_name :</span></dt><dd>sea_surface_wave_energy_at_variance_spectral_density_maximum</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>0.0</dd><dt><span>valid_max :</span></dt><dd>5000.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFlagSecondary</dd></dl></div><div class='xr-var-data'><pre>[2 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveTz</span></div><div class='xr-var-dims'>(waveTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-c3e85355-a8e9-4e53-8979-49630dab1e05' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c3e85355-a8e9-4e53-8979-49630dab1e05' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5659cfa6-2631-497f-ab0f-3fe57ca7d384' class='xr-var-data-in' type='checkbox'><label for='data-5659cfa6-2631-497f-ab0f-3fe57ca7d384' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>spectral zero-upcross wave period</dd><dt><span>units :</span></dt><dd>second</dd><dt><span>standard_name :</span></dt><dd>sea_surface_wave_mean_period_from_variance_spectral_density_second_frequency_moment</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>0.0</dd><dt><span>valid_max :</span></dt><dd>40.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFlagSecondary</dd></dl></div><div class='xr-var-data'><pre>[2 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveSourceIndex</span></div><div class='xr-var-dims'>(waveTime)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-e1e2e74a-bfea-49f6-8194-5162edd9682e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e1e2e74a-bfea-49f6-8194-5162edd9682e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3e17543f-5b9f-49bb-8187-d0329cc3dd3a' class='xr-var-data-in' type='checkbox'><label for='data-3e17543f-5b9f-49bb-8187-d0329cc3dd3a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>source file index</dd></dl></div><div class='xr-var-data'><pre>[2 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveFrequencyBounds</span></div><div class='xr-var-dims'>(waveFrequency, metaBoundsCount)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-976df8a4-1595-4859-9a70-999f6d8c3fc8' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-976df8a4-1595-4859-9a70-999f6d8c3fc8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-829ab95e-74cc-4f07-b6e9-4645ecac2160' class='xr-var-data-in' type='checkbox'><label for='data-829ab95e-74cc-4f07-b6e9-4645ecac2160' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>frequency cell bounds</dd><dt><span>units :</span></dt><dd>hertz</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveFrequencyFlagPrimary</span></div><div class='xr-var-dims'>(waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-f2603fdc-60c2-4e43-8e09-1a6ceff6d8e2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f2603fdc-60c2-4e43-8e09-1a6ceff6d8e2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5dee9830-0e56-4666-8146-27b3d26206ba' class='xr-var-data-in' type='checkbox'><label for='data-5dee9830-0e56-4666-8146-27b3d26206ba' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>primary waveFrequency QC flag</dd><dt><span>standard_name :</span></dt><dd>status_flag</dd><dt><span>valid_min :</span></dt><dd>1</dd><dt><span>valid_max :</span></dt><dd>9</dd><dt><span>flag_values :</span></dt><dd>[1 2 3 4 9]</dd><dt><span>flag_meanings :</span></dt><dd>good not_evaluated questionable bad missing</dd><dt><span>reference :</span></dt><dd>Ocean Data Standards, UNESCO 2013 - IOC Manuals and Guides, 54, Volume 3 Version 1</dd><dt><span>ancillary_variables :</span></dt><dd>waveFrequencyFlagSecondary</dd><dt><span>coverage_content_type :</span></dt><dd>qualityInformation</dd></dl></div><div class='xr-var-data'><pre>[64 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveFrequencyFlagSecondary</span></div><div class='xr-var-dims'>(waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-b794585d-ea07-40f2-9afd-f270ae4fce01' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b794585d-ea07-40f2-9afd-f270ae4fce01' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-39e30356-198b-400e-807b-2f58bce9a82d' class='xr-var-data-in' type='checkbox'><label for='data-39e30356-198b-400e-807b-2f58bce9a82d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>secondary waveFrequency QC flag</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>2</dd><dt><span>flag_values :</span></dt><dd>[0 1 2]</dd><dt><span>flag_meanings :</span></dt><dd>unspecified out_of_range above_hull_response_limit</dd><dt><span>reference :</span></dt><dd>http://cdip.ucsd.edu/documentation</dd><dt><span>coverage_content_type :</span></dt><dd>qualityInformation</dd></dl></div><div class='xr-var-data'><pre>[64 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveBandwidth</span></div><div class='xr-var-dims'>(waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-de6b3243-2142-4d8e-8623-0ad1e1de5afb' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-de6b3243-2142-4d8e-8623-0ad1e1de5afb' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-86ad3f2f-e3c1-4192-8d8b-93ee0c18b37e' class='xr-var-data-in' type='checkbox'><label for='data-86ad3f2f-e3c1-4192-8d8b-93ee0c18b37e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>bandwidth</dd><dt><span>units :</span></dt><dd>hertz</dd><dt><span>ncei_name :</span></dt><dd>WAVE ENERGY - WIDTH OF SPECTRAL BANDS</dd></dl></div><div class='xr-var-data'><pre>[64 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveEnergyDensity</span></div><div class='xr-var-dims'>(waveTime, waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-f72a73bd-db17-43a4-898b-78bf1ade2bc7' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f72a73bd-db17-43a4-898b-78bf1ade2bc7' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f03dbf95-d6c0-40ba-90e1-b3c9a77ecff0' class='xr-var-data-in' type='checkbox'><label for='data-f03dbf95-d6c0-40ba-90e1-b3c9a77ecff0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band energy density</dd><dt><span>units :</span></dt><dd>meter^2 second</dd><dt><span>standard_name :</span></dt><dd>sea_surface_wave_variance_spectral_density</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>0.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFrequencyFlagPrimary waveFlagSecondary waveFrequencyFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>WAVE ENERGY - SPECTRAL VALUE</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveMeanDirection</span></div><div class='xr-var-dims'>(waveTime, waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-43777ca2-d119-4bab-bfef-cdc09c133270' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-43777ca2-d119-4bab-bfef-cdc09c133270' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-680ddcfa-a266-4ad6-9bdc-5070f9e80649' class='xr-var-data-in' type='checkbox'><label for='data-680ddcfa-a266-4ad6-9bdc-5070f9e80649' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band mean direction</dd><dt><span>units :</span></dt><dd>degreeT</dd><dt><span>standard_name :</span></dt><dd>sea_surface_wave_from_direction</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>0.0</dd><dt><span>valid_max :</span></dt><dd>360.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFrequencyFlagPrimary waveFlagSecondary waveFrequencyFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>WAVE DIRECTION - AVERAGE</dd><dt><span>additional_processing :</span></dt><dd>Magnetic declination (metaDeclination) added to buoy-returned direction to shift to degrees true.</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveA1Value</span></div><div class='xr-var-dims'>(waveTime, waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-ec294e21-9962-4b26-b3b8-85abebb29941' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ec294e21-9962-4b26-b3b8-85abebb29941' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f09acf35-7261-4ea5-8eb0-ba1bb0eb6ef7' class='xr-var-data-in' type='checkbox'><label for='data-f09acf35-7261-4ea5-8eb0-ba1bb0eb6ef7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band a1 Fourier coefficient</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>-1.0</dd><dt><span>valid_max :</span></dt><dd>1.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFrequencyFlagPrimary waveFlagSecondary waveFrequencyFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>WAVE DATA - ANGULAR FOURIER COEFFICIENTS</dd><dt><span>additional_processing :</span></dt><dd>Calculated relative to true north from the buoy-returned mean dir, spread, m2, and n2.</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveB1Value</span></div><div class='xr-var-dims'>(waveTime, waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-12aba917-aa54-4962-8b30-f2b030b075ce' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-12aba917-aa54-4962-8b30-f2b030b075ce' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5757c4e2-eeb3-45fb-bec2-0b96538a3da3' class='xr-var-data-in' type='checkbox'><label for='data-5757c4e2-eeb3-45fb-bec2-0b96538a3da3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band b1 Fourier coefficient</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>-1.0</dd><dt><span>valid_max :</span></dt><dd>1.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFrequencyFlagPrimary waveFlagSecondary waveFrequencyFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>WAVE DATA - ANGULAR FOURIER COEFFICIENTS</dd><dt><span>additional_processing :</span></dt><dd>Calculated relative to true north from the buoy-returned mean dir, spread, m2, and n2.</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveA2Value</span></div><div class='xr-var-dims'>(waveTime, waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-8b5c2c27-eef3-4f7b-9f4e-f21df9ebc33c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8b5c2c27-eef3-4f7b-9f4e-f21df9ebc33c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5f2ae4a9-3504-4deb-b8a0-c285459ca360' class='xr-var-data-in' type='checkbox'><label for='data-5f2ae4a9-3504-4deb-b8a0-c285459ca360' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band a2 Fourier coefficient</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>-1.0</dd><dt><span>valid_max :</span></dt><dd>1.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFrequencyFlagPrimary waveFlagSecondary waveFrequencyFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>WAVE DATA - ANGULAR FOURIER COEFFICIENTS</dd><dt><span>additional_processing :</span></dt><dd>Calculated relative to true north from the buoy-returned mean dir, spread, m2, and n2.</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveB2Value</span></div><div class='xr-var-dims'>(waveTime, waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-0eaf87c6-73b6-4876-8cd6-72570df79be6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0eaf87c6-73b6-4876-8cd6-72570df79be6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e66a6840-8195-4c89-90c6-c8bf38d6e4a8' class='xr-var-data-in' type='checkbox'><label for='data-e66a6840-8195-4c89-90c6-c8bf38d6e4a8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band b2 Fourier coefficient</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>-1.0</dd><dt><span>valid_max :</span></dt><dd>1.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFrequencyFlagPrimary waveFlagSecondary waveFrequencyFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>WAVE DATA - ANGULAR FOURIER COEFFICIENTS</dd><dt><span>additional_processing :</span></dt><dd>Calculated relative to true north from the buoy-returned mean dir, spread, m2, and n2.</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveCheckFactor</span></div><div class='xr-var-dims'>(waveTime, waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-59847436-9d64-4010-995d-11e37ea136a1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-59847436-9d64-4010-995d-11e37ea136a1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9e2c1a69-3414-4ccb-971c-ca5c3fd36599' class='xr-var-data-in' type='checkbox'><label for='data-9e2c1a69-3414-4ccb-971c-ca5c3fd36599' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band check factor (inverse of wave ellipticity)</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>0.0</dd><dt><span>valid_max :</span></dt><dd>2.55</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFrequencyFlagPrimary waveFlagSecondary waveFrequencyFlagSecondary</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveSpread</span></div><div class='xr-var-dims'>(waveTime, waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-47f861da-f51a-4c65-b534-cb1879c8e4e4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-47f861da-f51a-4c65-b534-cb1879c8e4e4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0b437d08-5a25-4c3b-b0ab-c1a51725e481' class='xr-var-data-in' type='checkbox'><label for='data-0b437d08-5a25-4c3b-b0ab-c1a51725e481' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band directional spread</dd><dt><span>units :</span></dt><dd>degree</dd><dt><span>standard_name :</span></dt><dd>sea_surface_wave_directional_spread</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>0.0</dd><dt><span>valid_max :</span></dt><dd>90.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFrequencyFlagPrimary waveFlagSecondary waveFrequencyFlagSecondary</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveM2Value</span></div><div class='xr-var-dims'>(waveTime, waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-35f43f92-7300-4b84-95b7-f1d8e9ca6513' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-35f43f92-7300-4b84-95b7-f1d8e9ca6513' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ea506182-366d-47a6-8c94-395974c04c66' class='xr-var-data-in' type='checkbox'><label for='data-ea506182-366d-47a6-8c94-395974c04c66' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band centered sine Fourier coefficient</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>-1.0</dd><dt><span>valid_max :</span></dt><dd>1.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFrequencyFlagPrimary waveFlagSecondary waveFrequencyFlagSecondary</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>waveN2Value</span></div><div class='xr-var-dims'>(waveTime, waveFrequency)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-8e3477f8-29f1-40fd-97df-58caf0923d4a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8e3477f8-29f1-40fd-97df-58caf0923d4a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0e827bc2-c8b9-45f5-b8d4-4b25c8e923e1' class='xr-var-data-in' type='checkbox'><label for='data-0e827bc2-c8b9-45f5-b8d4-4b25c8e923e1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>band centered cosine Fourier coefficient</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>-1.0</dd><dt><span>valid_max :</span></dt><dd>1.0</dd><dt><span>ancillary_variables :</span></dt><dd>waveFlagPrimary waveFrequencyFlagPrimary waveFlagSecondary waveFrequencyFlagSecondary</dd></dl></div><div class='xr-var-data'><pre>[128 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>sstTimeBounds</span></div><div class='xr-var-dims'>(sstTime, metaBoundsCount)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-7e08e117-3ca0-42fe-82d3-f0ad4d05b600' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7e08e117-3ca0-42fe-82d3-f0ad4d05b600' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0a2238ec-09cf-4c84-919c-b9bb4370ecad' class='xr-var-data-in' type='checkbox'><label for='data-0a2238ec-09cf-4c84-919c-b9bb4370ecad' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time cell bounds</dd><dt><span>coverage_content_type :</span></dt><dd>auxiliaryInformation</dd></dl></div><div class='xr-var-data'><pre>[3900 values with dtype=datetime64[ns]]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>sstFlagPrimary</span></div><div class='xr-var-dims'>(sstTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-9d44c93a-f8c1-4dc0-b38d-cdb8b7e4e03e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9d44c93a-f8c1-4dc0-b38d-cdb8b7e4e03e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-87510ebf-6d8c-4f31-995b-5be71500ad6b' class='xr-var-data-in' type='checkbox'><label for='data-87510ebf-6d8c-4f31-995b-5be71500ad6b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>primary sst QC flag</dd><dt><span>standard_name :</span></dt><dd>status_flag</dd><dt><span>valid_min :</span></dt><dd>1</dd><dt><span>valid_max :</span></dt><dd>9</dd><dt><span>flag_values :</span></dt><dd>[1 2 3 4 9]</dd><dt><span>flag_meanings :</span></dt><dd>good not_evaluated questionable bad missing</dd><dt><span>reference :</span></dt><dd>Ocean Data Standards, UNESCO 2013 - IOC Manuals and Guides, 54, Volume 3 Version 1</dd><dt><span>ancillary_variables :</span></dt><dd>sstFlagSecondary</dd><dt><span>coverage_content_type :</span></dt><dd>qualityInformation</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>sstFlagSecondary</span></div><div class='xr-var-dims'>(sstTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-f99772d6-b7e6-4909-b8a4-18a4587b0099' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f99772d6-b7e6-4909-b8a4-18a4587b0099' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9dec2bb3-17dd-43e0-a5bf-334fc476994f' class='xr-var-data-in' type='checkbox'><label for='data-9dec2bb3-17dd-43e0-a5bf-334fc476994f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>secondary sst QC flag</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>7</dd><dt><span>flag_values :</span></dt><dd>[0 1 2 3 4 5 6 7]</dd><dt><span>flag_meanings :</span></dt><dd>unspecified sensor_issues SST_out_of_range SST_spike SST_max_change_exceeded hf_transmission_errors_fixed hf_transmission_errors_present reference_temperature_off</dd><dt><span>reference :</span></dt><dd>http://cdip.ucsd.edu/documentation</dd><dt><span>coverage_content_type :</span></dt><dd>qualityInformation</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>sstSeaSurfaceTemperature</span></div><div class='xr-var-dims'>(sstTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-c97a9070-f6d5-476c-932b-b05bc271bf8f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c97a9070-f6d5-476c-932b-b05bc271bf8f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ed3015dd-0e51-4374-98a3-6face5a6619f' class='xr-var-data-in' type='checkbox'><label for='data-ed3015dd-0e51-4374-98a3-6face5a6619f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>sea surface temperature</dd><dt><span>units :</span></dt><dd>Celsius</dd><dt><span>standard_name :</span></dt><dd>sea_surface_temperature</dd><dt><span>grid_mapping :</span></dt><dd>metaGridMapping</dd><dt><span>valid_min :</span></dt><dd>-5.0</dd><dt><span>valid_max :</span></dt><dd>46.15</dd><dt><span>ancillary_variables :</span></dt><dd>sstFlagPrimary sstFlagSecondary</dd><dt><span>ncei_name :</span></dt><dd>SEA SURFACE TEMPERATURE</dd><dt><span>cell_methods :</span></dt><dd>sstTime: point</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>sstSourceIndex</span></div><div class='xr-var-dims'>(sstTime)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-a2a5e7cd-8c77-449b-b836-989ff87a9557' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a2a5e7cd-8c77-449b-b836-989ff87a9557' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ec5ae534-07fd-4e47-a11e-fa894968e69f' class='xr-var-data-in' type='checkbox'><label for='data-ec5ae534-07fd-4e47-a11e-fa894968e69f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>source file index</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>sstReferenceTemp</span></div><div class='xr-var-dims'>(sstTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-1f4f7732-176b-4ff2-b04d-0960f4b29719' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1f4f7732-176b-4ff2-b04d-0960f4b29719' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-65c4d65b-bcfd-453e-98c8-3f32bc0d1408' class='xr-var-data-in' type='checkbox'><label for='data-65c4d65b-bcfd-453e-98c8-3f32bc0d1408' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>reference temperature</dd><dt><span>units :</span></dt><dd>Celsius</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>gpsTimeBounds</span></div><div class='xr-var-dims'>(gpsTime, metaBoundsCount)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-2258738c-ae35-468e-8959-3357033bd235' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2258738c-ae35-468e-8959-3357033bd235' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-74686380-3c4d-4d5a-8bd1-3fe99917dcd6' class='xr-var-data-in' type='checkbox'><label for='data-74686380-3c4d-4d5a-8bd1-3fe99917dcd6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time cell bounds</dd><dt><span>coverage_content_type :</span></dt><dd>auxiliaryInformation</dd></dl></div><div class='xr-var-data'><pre>[3900 values with dtype=datetime64[ns]]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>gpsStatusFlags</span></div><div class='xr-var-dims'>(gpsTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-b28b3483-6c94-4994-a6e9-19c7f985aa41' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b28b3483-6c94-4994-a6e9-19c7f985aa41' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b8a43ccd-46ea-449b-9f91-264a5a99bf2e' class='xr-var-data-in' type='checkbox'><label for='data-b8a43ccd-46ea-449b-9f91-264a5a99bf2e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>gps data flags</dd><dt><span>flag_masks :</span></dt><dd>[1 2 4 8]</dd><dt><span>flag_meanings :</span></dt><dd>module_ok new_fix figure_of_merit hf_transmission_error</dd><dt><span>comment :</span></dt><dd>Good GPS positions will have module_ok and new_fix set, i.e. gpsStatusFlags=3. All other positions should be ignored. Note that some records with gpsStatusFlags=3 may also be erroneous, these values are not subject to any quality control.</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>gpsLatitude</span></div><div class='xr-var-dims'>(gpsTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-b72c2e8d-9d50-4764-8107-54714bd44d95' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b72c2e8d-9d50-4764-8107-54714bd44d95' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-52748d6e-6e8d-4093-9d41-076ed52ade2a' class='xr-var-data-in' type='checkbox'><label for='data-52748d6e-6e8d-4093-9d41-076ed52ade2a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>buoy latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>valid_min :</span></dt><dd>-90.0</dd><dt><span>valid_max :</span></dt><dd>90.0</dd><dt><span>ncei_name :</span></dt><dd>LATITUDE</dd><dt><span>cell_methods :</span></dt><dd>gpsTime: point</dd><dt><span>ancillary_variables :</span></dt><dd>gpsStatusFlags</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>gpsLongitude</span></div><div class='xr-var-dims'>(gpsTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-f426adcf-2eaf-4fec-8917-dc899e4addd0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f426adcf-2eaf-4fec-8917-dc899e4addd0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-918a8ee6-0324-4e27-8b09-c26f2de1aaa1' class='xr-var-data-in' type='checkbox'><label for='data-918a8ee6-0324-4e27-8b09-c26f2de1aaa1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>buoy longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>valid_min :</span></dt><dd>-180.0</dd><dt><span>valid_max :</span></dt><dd>180.0</dd><dt><span>ncei_name :</span></dt><dd>LONGITUDE</dd><dt><span>cell_methods :</span></dt><dd>gpsTime: point</dd><dt><span>ancillary_variables :</span></dt><dd>gpsStatusFlags</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>gpsSourceIndex</span></div><div class='xr-var-dims'>(gpsTime)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-49534f7a-63f2-4a9e-b5d2-1fa81805cfd5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-49534f7a-63f2-4a9e-b5d2-1fa81805cfd5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e985e752-cc77-4794-9c63-2ca239286a9c' class='xr-var-data-in' type='checkbox'><label for='data-e985e752-cc77-4794-9c63-2ca239286a9c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>source file index</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>dwrTimeBounds</span></div><div class='xr-var-dims'>(dwrTime, metaBoundsCount)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-6380b755-14bd-4339-afb2-c27a4cdc5269' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6380b755-14bd-4339-afb2-c27a4cdc5269' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-854f45c7-1b13-40bf-917b-567a72be4bf9' class='xr-var-data-in' type='checkbox'><label for='data-854f45c7-1b13-40bf-917b-567a72be4bf9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>time cell bounds</dd><dt><span>coverage_content_type :</span></dt><dd>auxiliaryInformation</dd></dl></div><div class='xr-var-data'><pre>[3900 values with dtype=datetime64[ns]]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>dwrSourceIndex</span></div><div class='xr-var-dims'>(dwrTime)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-80629fbc-2006-48ff-b232-7ac366b3b214' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-80629fbc-2006-48ff-b232-7ac366b3b214' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7985ae08-72c4-4387-afe6-1d66ff6818a0' class='xr-var-data-in' type='checkbox'><label for='data-7985ae08-72c4-4387-afe6-1d66ff6818a0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>source file index</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>dwrBatteryLevel</span></div><div class='xr-var-dims'>(dwrTime)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-ac112568-5e88-46d0-a3a9-025886df1714' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ac112568-5e88-46d0-a3a9-025886df1714' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f36e839f-ca70-47b7-be0a-8bc55d15419f' class='xr-var-data-in' type='checkbox'><label for='data-f36e839f-ca70-47b7-be0a-8bc55d15419f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>battery level</dd><dt><span>valid_min :</span></dt><dd>0</dd><dt><span>valid_max :</span></dt><dd>7</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>dwrZAccelerometerOffset</span></div><div class='xr-var-dims'>(dwrTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-80de9a5a-e39c-4deb-8510-c73806329b94' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-80de9a5a-e39c-4deb-8510-c73806329b94' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b52bd8d8-060c-42c4-8add-a11c2d83bbcd' class='xr-var-data-in' type='checkbox'><label for='data-b52bd8d8-060c-42c4-8add-a11c2d83bbcd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>vertical accelerometer offset</dd><dt><span>units :</span></dt><dd>m/s^2</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>dwrXAccelerometerOffset</span></div><div class='xr-var-dims'>(dwrTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-21d4096b-13f9-4d9c-9c30-8d644ba3c763' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-21d4096b-13f9-4d9c-9c30-8d644ba3c763' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4a4e079e-9737-4e0f-9085-555352b64dcf' class='xr-var-data-in' type='checkbox'><label for='data-4a4e079e-9737-4e0f-9085-555352b64dcf' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>x-axis accelerometer offset</dd><dt><span>units :</span></dt><dd>m/s^2</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>dwrYAccelerometerOffset</span></div><div class='xr-var-dims'>(dwrTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-f5697a57-7096-449f-998f-6c5b1347a189' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f5697a57-7096-449f-998f-6c5b1347a189' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7e9e8166-8cca-46d7-b011-6f0060763660' class='xr-var-data-in' type='checkbox'><label for='data-7e9e8166-8cca-46d7-b011-6f0060763660' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>y-axis accelerometer offset</dd><dt><span>units :</span></dt><dd>m/s^2</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>dwrOrientation</span></div><div class='xr-var-dims'>(dwrTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-935a05bf-b15e-4c62-a78e-b71a0b2d8fd8' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-935a05bf-b15e-4c62-a78e-b71a0b2d8fd8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1f43e60c-426f-4372-a87b-1716ca09e509' class='xr-var-data-in' type='checkbox'><label for='data-1f43e60c-426f-4372-a87b-1716ca09e509' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>buoy orientation</dd><dt><span>units :</span></dt><dd>degrees</dd><dt><span>standard_name :</span></dt><dd>platform_orientation</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>dwrInclination</span></div><div class='xr-var-dims'>(dwrTime)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-b5834d35-0e92-45ad-bcfd-cca316da951b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b5834d35-0e92-45ad-bcfd-cca316da951b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fcdac741-a789-4548-8411-7220c8c5c549' class='xr-var-data-in' type='checkbox'><label for='data-fcdac741-a789-4548-8411-7220c8c5c549' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>magnetic inclination</dd><dt><span>units :</span></dt><dd>degrees</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>dwrBatteryWeeksOfLife</span></div><div class='xr-var-dims'>(dwrTime)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-446fae18-d8f5-4997-b6d0-81a151d86797' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-446fae18-d8f5-4997-b6d0-81a151d86797' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8f9065b7-b664-4166-b267-9d8e8c8313d0' class='xr-var-data-in' type='checkbox'><label for='data-8f9065b7-b664-4166-b267-9d8e8c8313d0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>battery weeks of life</dd><dt><span>units :</span></dt><dd>weeks</dd></dl></div><div class='xr-var-data'><pre>[1950 values with dtype=float64]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>metaStationName</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>|S28</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-2cdb3c02-81da-42ec-99a9-2f8f068ee852' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2cdb3c02-81da-42ec-99a9-2f8f068ee852' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ce61be66-8d17-476b-b725-51dfa2754823' class='xr-var-data-in' type='checkbox'><label for='data-ce61be66-8d17-476b-b725-51dfa2754823' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>station name</dd><dt><span>standard_name :</span></dt><dd>platform_name</dd><dt><span>cf_role :</span></dt><dd>timeseries_id</dd><dt><span>coverage_content_type :</span></dt><dd>referenceInformation</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=|S28]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>metaPlatform</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>|S1</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-ed1971c4-e983-4cc9-ad0a-102759c1b4c0' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ed1971c4-e983-4cc9-ad0a-102759c1b4c0' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2096db09-3ef7-4d56-a34f-a83a3fa12b7f' class='xr-var-data-in' type='checkbox'><label for='data-2096db09-3ef7-4d56-a34f-a83a3fa12b7f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>platform_attributes</dd><dt><span>make_model :</span></dt><dd>Datawell DWR-M3 directional buoy</dd><dt><span>serial_number :</span></dt><dd>Hull: 30635; hatchcover: 70420</dd><dt><span>hull_diameter_meters :</span></dt><dd>0.9</dd><dt><span>documentation_url :</span></dt><dd>http://datawell.nl</dd><dt><span>mooring :</span></dt><dd>Datawell-compliant</dd><dt><span>mooring_length_meters :</span></dt><dd>935.0</dd><dt><span>coverage_content_type :</span></dt><dd>referenceInformation</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=|S1]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>metaInstrumentation</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>|S1</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-648ff418-c0b4-4ddb-90a1-91ac18cdb401' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-648ff418-c0b4-4ddb-90a1-91ac18cdb401' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f3803d97-46bb-4f6b-9cbd-e61b05f489c0' class='xr-var-data-in' type='checkbox'><label for='data-f3803d97-46bb-4f6b-9cbd-e61b05f489c0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>instrumentation_attributes</dd><dt><span>make_model :</span></dt><dd>Datawell DWR-M3 directional buoy</dd><dt><span>serial_number :</span></dt><dd>Hull: 30635; hatchcover: 70420</dd><dt><span>hull_diameter_meters :</span></dt><dd>0.9</dd><dt><span>documentation_url :</span></dt><dd>http://datawell.nl</dd><dt><span>mooring :</span></dt><dd>Datawell-compliant</dd><dt><span>mooring_length_meters :</span></dt><dd>935.0</dd><dt><span>coverage_content_type :</span></dt><dd>referenceInformation</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=|S1]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>metaWaterDepth</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-fbb8fb7e-2856-4a64-a4c3-c0bf1ff15da5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-fbb8fb7e-2856-4a64-a4c3-c0bf1ff15da5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-194ffa03-c954-46e5-acb0-b653f69186b0' class='xr-var-data-in' type='checkbox'><label for='data-194ffa03-c954-46e5-acb0-b653f69186b0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>sea_floor_depth_below_sea_surface</dd><dt><span>long_name :</span></dt><dd>water depth</dd><dt><span>units :</span></dt><dd>meter</dd><dt><span>ncei_name :</span></dt><dd>DEPTH - BOTTOM</dd><dt><span>coverage_content_type :</span></dt><dd>referenceInformation</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>metaDeclination</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-f80a2376-bb53-4b3b-b01c-3d5f1872c659' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f80a2376-bb53-4b3b-b01c-3d5f1872c659' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-01300e95-e6c4-4fbc-9be3-6e91d695ffc3' class='xr-var-data-in' type='checkbox'><label for='data-01300e95-e6c4-4fbc-9be3-6e91d695ffc3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>magnetic declination</dd><dt><span>units :</span></dt><dd>degree</dd><dt><span>coverage_content_type :</span></dt><dd>referenceInformation</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>metaGridMapping</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>|S1</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-87c4ee91-e306-40aa-8f43-c4e7605cd7cb' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-87c4ee91-e306-40aa-8f43-c4e7605cd7cb' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-58072def-fb01-4054-8244-284e207222b2' class='xr-var-data-in' type='checkbox'><label for='data-58072def-fb01-4054-8244-284e207222b2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>grid_mapping_name :</span></dt><dd>latitude_longitude</dd><dt><span>longitude_of_prime_meridian :</span></dt><dd>0.0</dd><dt><span>semi_major_axis :</span></dt><dd>6378137.0</dd><dt><span>inverse_flattening :</span></dt><dd>298.257223563</dd><dt><span>coverage_content_type :</span></dt><dd>referenceInformation</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=|S1]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-07511f61-5e5d-4690-81d1-72c68f8dea8e' class='xr-section-summary-in' type='checkbox'  ><label for='section-07511f61-5e5d-4690-81d1-72c68f8dea8e' class='xr-section-summary' >Attributes: <span>(66)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>naming_authority :</span></dt><dd>edu.ucsd.cdip</dd><dt><span>keywords_vocabulary :</span></dt><dd>Global Change Master Directory (GCMD) Earth Science Keywords</dd><dt><span>date_created :</span></dt><dd>2025-10-17T16:30:22Z</dd><dt><span>date_issued :</span></dt><dd>2025-10-17T16:30:22Z</dd><dt><span>date_modified :</span></dt><dd>2025-10-17T16:30:22Z</dd><dt><span>creator_name :</span></dt><dd>Coastal Data Information Program, SIO/UCSD</dd><dt><span>creator_url :</span></dt><dd>http://cdip.ucsd.edu</dd><dt><span>creator_email :</span></dt><dd>www@cdip.ucsd.edu</dd><dt><span>creator_institution :</span></dt><dd>Scripps Institution of Oceanography, UCSD</dd><dt><span>creator_country :</span></dt><dd>USA</dd><dt><span>creator_sector :</span></dt><dd>academic</dd><dt><span>publisher_name :</span></dt><dd>Coastal Data Information Program, SIO/UCSD</dd><dt><span>publisher_url :</span></dt><dd>http://cdip.ucsd.edu</dd><dt><span>publisher_email :</span></dt><dd>www@cdip.ucsd.edu</dd><dt><span>publisher_country :</span></dt><dd>USA</dd><dt><span>publisher_institution :</span></dt><dd>Scripps Institution of Oceanography, UCSD</dd><dt><span>institution :</span></dt><dd>Scripps Institution of Oceanography, University of California San Diego</dd><dt><span>project :</span></dt><dd>Coastal Data Information Program (CDIP)</dd><dt><span>processing_level :</span></dt><dd>QA/QC information available at http://cdip.ucsd.edu/documentation</dd><dt><span>standard_name_vocabulary :</span></dt><dd>CF Standard Name Table v79</dd><dt><span>Conventions :</span></dt><dd>ACDD-1.3, CF-1.8, IOOS-1.2</dd><dt><span>license :</span></dt><dd>These data may be redistributed and used without restriction.</dd><dt><span>cdm_data_type :</span></dt><dd>Station</dd><dt><span>featureType :</span></dt><dd>timeSeries</dd><dt><span>ncei_template_version :</span></dt><dd>NCEI_NetCDF_TimeSeries_Orthogonal_Template_v2.0</dd><dt><span>references :</span></dt><dd>http://cdip.ucsd.edu/documentation</dd><dt><span>uuid :</span></dt><dd>A5C13EED-FF41-4775-911F-5E129604058F</dd><dt><span>title :</span></dt><dd>Directional wave and sea surface temperature measurements collected in situ by Datawell DWR-M3 directional buoy located near POINT REYES, CA from 2025/09/06 22:00:00 to 2025/10/17 16:26:40.</dd><dt><span>summary :</span></dt><dd>Directional wave and sea surface temperature measurements collected in situ by Datawell DWR-M3 directional buoy located near POINT REYES, CA from 2025/09/06 22:00:00 to 2025/10/17 16:26:40. A total of 1950 wave samples were analyzed for this site, where the water depth is approximately 550 meters.</dd><dt><span>keywords :</span></dt><dd>EARTH SCIENCE, OCEANS, OCEAN WAVES, GRAVITY WAVES, WIND WAVES, SIGNIFICANT WAVE HEIGHT, WAVE FREQUENCY, WAVE PERIOD, WAVE SPECTRA, OCEAN TEMPERATURE, SEA SURFACE TEMPERATURE, WATER TEMPERATURE, OCEAN, PACIFIC OCEAN, EASTERN PACIFIC OCEAN</dd><dt><span>cdip_station_id :</span></dt><dd>029</dd><dt><span>platform_id :</span></dt><dd>029p1</dd><dt><span>cdip_deployment_id :</span></dt><dd>029p1_d27</dd><dt><span>wmo_id :</span></dt><dd>46214</dd><dt><span>wmo_platform_code :</span></dt><dd>46214</dd><dt><span>id :</span></dt><dd>CDIP_029p1_20250906-20251017</dd><dt><span>history :</span></dt><dd>2025-10-17T16:30:23Z: dataset created; multiple updates - last run program, arguments: process_dw_realtime v3.1, is70420_202510171630 If date_modified is after date_created, contact CDIP for details of changes.</dd><dt><span>comment :</span></dt><dd>This dataset contains data as acquired in real-time, the QC performed upon it is not as complete as for historic CDIP datasets. All values are decoded directly from the instruments in accordance with the manufacturers documentation EXCEPT for those with the attribute :additional_processing which describes further data handling performed by CDIP.</dd><dt><span>acknowledgment :</span></dt><dd>CDIP is primarily supported by the U.S. Army Corps of Engineers (USACE). Station partner: CDBW ; Field operator: CDIP</dd><dt><span>metadata_link :</span></dt><dd>http://cdip.ucsd.edu/metadata/029p1</dd><dt><span>infoUrl :</span></dt><dd>http://cdip.ucsd.edu/metadata/029p1</dd><dt><span>contributor_name :</span></dt><dd>CDIP, CDBW/USACE</dd><dt><span>contributor_role :</span></dt><dd>station operation, station funding</dd><dt><span>geospatial_lat_min :</span></dt><dd>37.9319</dd><dt><span>geospatial_lat_max :</span></dt><dd>37.949097</dd><dt><span>geospatial_lat_units :</span></dt><dd>degrees_north</dd><dt><span>geospatial_lat_resolution :</span></dt><dd>1e-04</dd><dt><span>geospatial_lon_min :</span></dt><dd>-123.4749</dd><dt><span>geospatial_lon_max :</span></dt><dd>-123.453094</dd><dt><span>geospatial_lon_units :</span></dt><dd>degrees_east</dd><dt><span>geospatial_lon_resolution :</span></dt><dd>1e-04</dd><dt><span>geospatial_vertical_min :</span></dt><dd>0.0</dd><dt><span>geospatial_vertical_max :</span></dt><dd>0.0</dd><dt><span>geospatial_vertical_units :</span></dt><dd>meters</dd><dt><span>geospatial_vertical_origin :</span></dt><dd>sea surface</dd><dt><span>geospatial_vertical_positive :</span></dt><dd>up</dd><dt><span>geospatial_vertical_resolution :</span></dt><dd>1.0</dd><dt><span>time_coverage_start :</span></dt><dd>2025-09-06T22:00:00Z</dd><dt><span>time_coverage_end :</span></dt><dd>2025-10-17T16:26:40Z</dd><dt><span>time_coverage_duration :</span></dt><dd>P040DT18H27M</dd><dt><span>time_coverage_resolution :</span></dt><dd>PT30M</dd><dt><span>source :</span></dt><dd>insitu observations</dd><dt><span>instrument :</span></dt><dd>metaInstrumentation</dd><dt><span>platform :</span></dt><dd>wave_buoy</dd><dt><span>platform_vocabulary :</span></dt><dd>http://mmisw.org/ont/ioos/platform</dd><dt><span>platform_name :</span></dt><dd>POINT REYES, CA BUOY - 029p1</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_spec_operational</span> <span class="o">=</span> <span class="n">ds_operation_sel</span><span class="o">.</span><span class="n">waveEnergyDensity</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;waveTime&#39;</span><span class="p">)</span> <span class="c1"># get the mean reference spectrum</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmax</span> <span class="o">=</span> <span class="n">ds_operationel</span><span class="o">.</span><span class="n">waveFrequency</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span> <span class="c1"># get the highest frequency in the reference Dataset</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">fmax</span> <span class="c1"># the sampling frequency is twice the highest frequency resolved in the reference dataset (Nyquist)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-wave-elevation-signal-the-signal-we-are-processing">
+<h2>The wave elevation signal. The signal we are processing.<a class="headerlink" href="#the-wave-elevation-signal-the-signal-we-are-processing" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_UTC</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Wave Amplitude [m]&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Wave Amplitude [m]&#39;)
+</pre></div>
+</div>
+<img alt="_images/143ceea51fba89ad3cb78071e69037abab10887c07eb45c4fc6851b6577378d9.png" src="_images/143ceea51fba89ad3cb78071e69037abab10887c07eb45c4fc6851b6577378d9.png" />
+</div>
+</div>
+</section>
+<section id="id1">
+<h2><a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">freq_raw</span><span class="p">,</span> <span class="n">spec_raw</span> <span class="o">=</span> <span class="n">wave_frequency_spectrum</span><span class="p">(</span><span class="n">elevation</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_buoy</span><span class="o">.</span><span class="n">xyzSampleRate</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="c1"># The raw spectral analysis</span>
+<span class="n">freq_smooth</span><span class="p">,</span> <span class="n">spec_corr_mean</span> <span class="o">=</span> <span class="n">wave_frequency_spectrum_overlap</span><span class="p">(</span><span class="n">elevation</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span>  <span class="n">Fs</span> <span class="o">=</span> <span class="n">ds_buoy</span><span class="o">.</span><span class="n">xyzSampleRate</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="c1"># The Welch Method</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>We chunk the signal into 39 windows
+</pre></div>
+</div>
+</div>
+</div>
+<p>This method of chunk the total signal into sub-signal is called the Welch’s method. Don’t forget to window all the chunks to avoid spectral leakage.</p>
+</section>
+<section id="plots-the-spectra">
+<h2>Plots the Spectra<a class="headerlink" href="#plots-the-spectra" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax_inset</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span> <span class="mf">.3</span><span class="p">,</span> <span class="mf">.3</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq_raw</span><span class="p">,</span> <span class="n">spec_raw</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Raw spectrum&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq_smooth</span><span class="p">,</span> <span class="n">spec_corr_mean</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;teal&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Filtered spectrum&#39;</span><span class="p">)</span>
+<span class="n">mean_spec_operational</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;tomato&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Reference spectrum&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">ax_inset</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq_smooth</span><span class="p">,</span> <span class="n">spec_corr_mean</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;teal&#39;</span><span class="p">)</span>
+<span class="n">mean_spec_operational</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax_inset</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;tomato&#39;</span><span class="p">)</span>
+<span class="n">ax_inset</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency [Hz]&#39;</span><span class="p">)</span>
+<span class="n">ax_inset</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;PSD [m$^2$/Hz]&#39;</span><span class="p">)</span>
+<span class="n">ax_inset</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;&#39;)
+</pre></div>
+</div>
+<img alt="_images/58b85a99ed76040cf336ae1974740c62f837432d7b7237a75cda6165fce9260e.png" src="_images/58b85a99ed76040cf336ae1974740c62f837432d7b7237a75cda6165fce9260e.png" />
+</div>
+</div>
+</section>
+<section id="wave-characteristics-let-s-spot-the-dominant-wave-frequencies-periods-and-the-significant-wave-height">
+<h2>Wave characteristics: let’s spot the dominant wave frequencies (periods) and the significant wave height<a class="headerlink" href="#wave-characteristics-let-s-spot-the-dominant-wave-frequencies-periods-and-the-significant-wave-height" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">peaks_spectrum</span> <span class="o">=</span> <span class="n">find_peaks</span><span class="p">(</span><span class="n">spec_corr_mean</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">.5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># here, the present height threshold is only applicable for this record </span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">freq_smooth</span><span class="p">)</span>
+
+<span class="n">hs_raw</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanvar</span><span class="p">(</span><span class="n">elevation</span><span class="p">))</span>
+<span class="n">hs_spec</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">spec_corr_mean</span><span class="o">*</span><span class="n">df</span><span class="p">))</span>
+<span class="n">hs_ope</span> <span class="o">=</span> <span class="n">ds_operation_sel</span><span class="o">.</span><span class="n">waveHs</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;waveTime&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;There are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">peaks_spectrum</span><span class="p">)</span><span class="si">}</span><span class="s1"> peaks in the spectrum centered at </span><span class="si">{</span><span class="n">freq_smooth</span><span class="p">[</span><span class="n">peaks_spectrum</span><span class="p">]</span><span class="si">}</span><span class="s1"> Hz which are associated with </span><span class="si">{</span><span class="mi">1</span><span class="o">/</span><span class="n">freq_smooth</span><span class="p">[</span><span class="n">peaks_spectrum</span><span class="p">]</span><span class="si">}</span><span class="s1"> sec period&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The significant wave heigth from the raw elevation signal is </span><span class="si">{</span><span class="n">hs_raw</span><span class="si">}</span><span class="s1"> m and </span><span class="si">{</span><span class="n">hs_spec</span><span class="si">}</span><span class="s1"> m from the spectrum. The reference dataset yields </span><span class="si">{</span><span class="n">hs_ope</span><span class="si">}</span><span class="s1"> m&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>There are 3 peaks in the spectrum centered at [0.07587748 0.10113154 0.12638558] Hz which are associated with [13.179141  9.888112  7.912295] sec period
+
+
+The significant wave heigth from the raw elevation signal is 1.0830532312393188 m and 1.0741991975847065 m from the spectrum. The reference dataset yields 1.090000033378601 m
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
+<p>We are able to reproduce the spectrum provided by CDIP quite well with our analysis. However, a noticeable shift exists between the blue and red spectra. This can be explained by differences in the frequency axis — which can be verified by interpolating our axis onto theirs — and by the fact that we did not use the exact same input signal. It is also possible that our signal is slightly shifted in time.</p>
+<p>We identify N peaks in the spectrum, centered around (see above) Hz. These peaks correspond to distinct wave systems. The lowest-frequency peak represents the swell, which is generated remotely and is independent of local wind conditions. The higher-frequency peaks likely correspond either to another distant swell or to a locally generated wind sea. Wind-sea waves are shorter, wind-dependent waves that result in a choppier sea surface. One can note that we have characterized the wave field using only Nf spectral values (length[PSD(f)]), while the original time series contained about 3000 data points. In the present context—where our goal is to derive key parameters such as the dominant wave periods and the significant wave height (<span class="math notranslate nohighlight">\(H_s\)</span>)—saving the full wave spectrum is not necessary. Only a few values are sufficient (four in our case, corresponding to three dominant periods and one <span class="math notranslate nohighlight">\(H_s\)</span>). Representing the wave field through spectra is therefore far more efficient than storing the raw elevation data.</p>
+<p>Here we are in deep water regime, so one can wonder how long those waves are. Knowing the wavelength we can actually double-check if we are in a deep water regime.</p>
+</section>
+<section id="uncertainties">
+<h2>Uncertainties<a class="headerlink" href="#uncertainties" title="Link to this heading">#</a></h2>
+<p>As with any mean of random variables (in this case, spectra), the resulting mean spectrum is associated with an uncertainty. More precisely, the mean corresponds to the average of a variance. According to Cochran’s theorem, the sample variance follows a <span class="math notranslate nohighlight">\(\chi^{2}\)</span> distribution with N degrees of freedom. Based on Gaussian statistics, the upper and lower 95% confidence bounds for the spectral density, <span class="math notranslate nohighlight">\(\mathrm{PSD}(f)\)</span>, are determined from the corresponding quantiles of the <span class="math notranslate nohighlight">\(\chi^{2}\)</span> distribution. The uncertainty decreases as the number of degrees of freedom increases. Here, the number of degrees of freedom is equal to twice the number of independent segments (or windows) averaged to compute the mean spectrum.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PSD1</span><span class="p">,</span> <span class="n">PSD2</span>  <span class="o">=</span> <span class="n">confident_interval_spec_95</span><span class="p">(</span><span class="n">spec_corr_mean</span><span class="p">,</span> <span class="mi">39</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">freq_smooth</span><span class="p">,</span> <span class="n">PSD1</span><span class="p">,</span> <span class="n">PSD2</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq_smooth</span><span class="p">,</span> <span class="n">spec_corr_mean</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency [Hz]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;PSD [m$^</span><span class="si">{2}</span><span class="s1">$/Hz]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;The mean spectrum`s errorbar&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;The mean spectrum`s errorbar&#39;)
+</pre></div>
+</div>
+<img alt="_images/30f840951fc5eae9d7808240cf3391469aa634a7ccc60f4c505af676ef316769.png" src="_images/30f840951fc5eae9d7808240cf3391469aa634a7ccc60f4c505af676ef316769.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="first_spectral_analyses.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">First Spectral Analyses</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="directional_spectrum.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Directional Wave spectrum</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-for-the-spectral-analysis">Functions for the Spectral Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wave-elevation-signal-the-signal-we-are-processing">The wave elevation signal. The signal we are processing.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plots-the-spectra">Plots the Spectra</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-characteristics-let-s-spot-the-dominant-wave-frequencies-periods-and-the-significant-wave-height">Wave characteristics: let’s spot the dominant wave frequencies (periods) and the significant wave height</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainties">Uncertainties</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gwendal Marechal
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

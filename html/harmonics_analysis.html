@@ -1,0 +1,662 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Harmonic Analysis of a Tidal Signal and Forecast &#8212; Signals and Images Processing</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'harmonics_analysis';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Tide spectral analysis." href="tidal_analysis.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo_univ_toulouse1.png" class="logo__image only-light" alt="Signals and Images Processing - Home"/>
+    <script>document.write(`<img src="_static/logo_univ_toulouse1.png" class="logo__image only-dark" alt="Signals and Images Processing - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to this Surface Waves in Geoscience Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction to Wave Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="random_1d_wave.html">Wave Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="waves_in_the_ocean.html">Waves in the Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="superposition_of_waves.html">Superposition of Monochromatic Waves</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Surface Gravity Wave Analysis from In-Situ Platform</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="wave_by_wave_analysis.html">Wave Statistics based on wave-by-wave analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_spectral_analyses.html">First Spectral Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spectral_analysis_on_geo_record.html">Spectral Analysis on Geophysical Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="directional_spectrum.html">Directional Wave spectrum</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis of Tidal Signal</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tidal_wave.html">Tidal Waves</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tidal_analysis.html">Tide spectral analysis.</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Harmonic Analysis of a Tidal Signal and Forecast</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fharmonics_analysis.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/harmonics_analysis.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Harmonic Analysis of a Tidal Signal and Forecast</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-and-plot">Load Data and Plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-utide-for-harmonics-reconstructions">Use Utide for harmonics reconstructions:</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="harmonic-analysis-of-a-tidal-signal-and-forecast">
+<h1>Harmonic Analysis of a Tidal Signal and Forecast<a class="headerlink" href="#harmonic-analysis-of-a-tidal-signal-and-forecast" title="Link to this heading">#</a></h1>
+<p>The complexe tide signal can be decomposed into harmonic oscillations. This was first described by Pierre Simon Laplace during the XVIII century. From its theoretical work, one hundred year after, the physician Thomson designed the first instrument to predict them. One prototype of the instrument is displayed below. Each gear represent one constituent of the tide (the bigger the gear, the longer the period of the constituent). A single crank turned all of the gears simultaneously, having the effect of summing each of the cosine curves. As the user turned the crank, a pencil draw the resulting complex curve on a moving roll of paper. Knowing the initial phase of the components (where we are on Earth and when) allow to forecast the tides for one year after four hours of effort.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">utide</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s2">&quot;tide_instrument.jpg&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<a class="reference internal image-reference" href="_images/b93e6869522ed388544a932a7ca5d4051bf2689ad55f972b5cccb97e757a07b7.jpg"><img alt="_images/b93e6869522ed388544a932a7ca5d4051bf2689ad55f972b5cccb97e757a07b7.jpg" src="_images/b93e6869522ed388544a932a7ca5d4051bf2689ad55f972b5cccb97e757a07b7.jpg" style="width: 700px;" />
+</a>
+</div>
+</div>
+<p>If you refer to the previous <a class="reference internal" href="tidal_analysis.html"><span class="std std-doc">notebook</span></a> (or in the litterature in general), you may have noticed that several tidal harmonics lie very close to one another in frequency (for instance, M2 and S2). This raises the question of how significant the resulting variations in water level are for these harmonics. More generally, one may ask: can we predict the total change in water elevation resulting from the tide over long timescales? The answer is yes.</p>
+<p>One can forecast the complexe tidal signal at a given location based on a <strong>harmonic analysis</strong>. The tidal signal can be expresses as:</p>
+<p>ℎ(𝑡) = 𝑍0 + ∑[𝐻𝑖 cos(𝜎𝑖𝑡 − <span class="math notranslate nohighlight">\(\varphi_i\)</span>). With:</p>
+<ul class="simple">
+<li><p>𝑍0 the mean sea level</p></li>
+<li><p>𝐻𝑖 the amplitude of the tidal constituent i</p></li>
+<li><p>𝜎𝑖 the angular velocity (or frequency) of the tidal constituent i</p></li>
+<li><p><span class="math notranslate nohighlight">\(\varphi_i\)</span> the phase of the tidal constituent i</p></li>
+<li><p>t is the time</p></li>
+</ul>
+<p>and the sum symbol is apply on all tidal constituents.</p>
+<p>A necessary condition for tidal forecasting at a given location is the availability of prior observations of water level elevation. The longer the initial time record, the more accurate the forecast. The optimal record length is approximately 19 years, corresponding to a full nodal lunar cycle. However, such long records are relatively rare across coastal stations.</p>
+<section id="load-data-and-plot">
+<h2>Load Data and Plot<a class="headerlink" href="#load-data-and-plot" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#########</span>
+<span class="c1"># --- Here we load the different constituents of the tide</span>
+<span class="c1">#########</span>
+<span class="n">nb_obs</span> <span class="o">=</span> <span class="mi">6700</span> <span class="c1"># number of observation used for forecast</span>
+
+<span class="n">signal</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;./data/tide_SaoTome.nc&#39;</span><span class="p">)</span>
+<span class="n">signal</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">record_id</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">mean_offset</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">sea_level</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;time&#39;</span><span class="p">)</span> <span class="c1"># mean water elevation &gt; 0</span>
+
+<span class="n">signal_offsetted</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">sea_level</span> <span class="o">-</span> <span class="n">mean_offset</span> <span class="c1"># center the signal, get the anomaly</span>
+<span class="n">signal_offsetted</span> <span class="o">=</span> <span class="n">signal_offsetted</span><span class="o">/</span><span class="mi">1_000</span> <span class="c1"># switch from mm -&gt;m</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">signal_offsetted</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Total Obs&#39;</span><span class="p">)</span> <span class="c1"># plot the total signal</span>
+
+<span class="n">signal_offsetted</span><span class="p">[:</span><span class="n">nb_obs</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;chunk used for the Forecast&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Sea Level Anomaly [m]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x16ed29d30&gt;
+</pre></div>
+</div>
+<img alt="_images/bbc714f00de0e440f3243b113e099234a9425d0bbfe45d65c1e343c9439d15ae.png" src="_images/bbc714f00de0e440f3243b113e099234a9425d0bbfe45d65c1e343c9439d15ae.png" />
+</div>
+</div>
+</section>
+<section id="use-utide-for-harmonics-reconstructions">
+<h2>Use Utide for harmonics reconstructions:<a class="headerlink" href="#use-utide-for-harmonics-reconstructions" title="Link to this heading">#</a></h2>
+<p>We want to fill the gap in the data and gauge how accurate our forecast is based on the second half of the signal. We use the first half of the signal to initial the forecast</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#########</span>
+<span class="c1"># --- get the coefficient (the tidal harmonics)</span>
+<span class="c1">#########</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="n">utide</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span>
+    <span class="n">signal_offsetted</span><span class="o">.</span><span class="n">time</span><span class="p">[:</span><span class="n">nb_obs</span><span class="p">],</span>
+    <span class="n">signal_offsetted</span><span class="p">[:</span><span class="n">nb_obs</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">lat</span><span class="o">=</span><span class="n">signal</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;ols&quot;</span><span class="p">,</span>
+    <span class="n">conf_int</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="c1"># A focus on M2 (the dominant harmonic (?))</span>
+<span class="n">coef_M2K1</span> <span class="o">=</span> <span class="n">utide</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span>
+    <span class="n">signal_offsetted</span><span class="o">.</span><span class="n">time</span><span class="p">[:</span><span class="n">nb_obs</span><span class="p">],</span>
+    <span class="n">signal_offsetted</span><span class="p">[:</span><span class="n">nb_obs</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">lat</span><span class="o">=</span><span class="n">signal</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;ols&quot;</span><span class="p">,</span>
+    <span class="n">conf_int</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">constit</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;M2&#39;</span><span class="p">,</span> <span class="s1">&#39;K1&#39;</span><span class="p">}</span>    
+<span class="p">)</span>
+<span class="c1">#########</span>
+<span class="c1"># --- Reconstruct the water level</span>
+<span class="c1">#########</span>
+<span class="n">tide</span> <span class="o">=</span> <span class="n">utide</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">signal_offsetted</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">coef</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">tide_M2K1</span> <span class="o">=</span> <span class="n">utide</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">signal_offsetted</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">coef_M2K1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">nrows</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># signal_offsetted.plot(ax = ax, color = &#39;k&#39;, label = &#39;Total Obs&#39;) # plot the total signal</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tide</span><span class="o">.</span><span class="n">t_in</span><span class="p">,</span> <span class="n">tide</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Prediction&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tide_M2K1</span><span class="o">.</span><span class="n">t_in</span><span class="p">,</span> <span class="n">tide_M2K1</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Prediction-M2K1&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">signal_offsetted</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">signal_offsetted</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Observations&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncols</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Sea Level Anomaly [m]&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tide</span><span class="o">.</span><span class="n">t_in</span><span class="p">,</span> <span class="p">(</span><span class="n">signal_offsetted</span><span class="o">-</span><span class="n">tide_M2K1</span><span class="o">.</span><span class="n">h</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tide</span><span class="o">.</span><span class="n">t_in</span><span class="p">,</span> <span class="p">(</span><span class="n">signal_offsetted</span><span class="o">-</span><span class="n">tide</span><span class="o">.</span><span class="n">h</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;C1&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Obs - Prediction&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Obs - Prediction&#39;)
+</pre></div>
+</div>
+<img alt="_images/00cd86415692ccfd8f2d3f2df339fee172a7c5162685dcb137c5fcdd1ce173b7.png" src="_images/00cd86415692ccfd8f2d3f2df339fee172a7c5162685dcb137c5fcdd1ce173b7.png" />
+</div>
+</div>
+<p>Thanks to harmonic analysis, data gaps can be filled. However, the forecast quality remains limited even if we are considering all harmonics, as seen in the second half of the observation period. The difference between the observed and predicted water level anomalies reaches nearly 1/3 of the observed signal (<span class="math notranslate nohighlight">\(\sim\)</span> January 1988). This quality further deteriorates when considering only the M2 and S2 harmonics, even though they are the dominant constituents.</p>
+<p>This lack of accuracy is likely due to the short initial time record used for the prediction. It is also possible that it may arises from systematic errors associated with the instrument itself.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tidal_analysis.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tide spectral analysis.</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-and-plot">Load Data and Plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-utide-for-harmonics-reconstructions">Use Utide for harmonics reconstructions:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gwendal Marechal
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
