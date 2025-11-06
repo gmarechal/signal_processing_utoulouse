@@ -6,7 +6,7 @@ As you certainly noticed when you went to the french coast (Brittany, Charrente'
 
 The first tide observations of the modern era were initiated in France toward the end of Louis XIV’s reign, in the wake of Newton’s work on gravitation, which provided a scientific foundation for understanding tides. One of the world’s oldest tide gauges was installed in the military port of Brest (Brittany) in 1846. Since then, the observatory has been regularly maintained and modernized, with only a temporary interruption following the bombings of 1944. Meanwhile, as the need to monitor and understand the marine environment increased, numerous other tide gauges were established around the world. Today, the Service Hydrographique Oceanographique de la Marine (SHOM) operate the tidal gauges along the french coasts.
 
- The principal of measuring tides rely on water level measurement. Back in the days, these measurements were collected manually from a scale fixed against harborss quays. Now these measurements are obviously more accurate and involve pressure sensor, water velocity (because tides induce currents), or radars.
+ The principal of measuring tides rely on water level measurement. Back in the days, these measurements were collected manually from a scale fixed against harborss quays. Now these measurements are obviously more accurate and involve pressure sensor, water velocity (because tides induce currents), or radars. Because tidal gauges do not populate the entire global ocean, numerical models combined with water level observations from space are utilized in tidal forecast. Their accuracy are excellent.
 
  ```{figure} /figures/Maregraphe_Brest.jpg
 ---
