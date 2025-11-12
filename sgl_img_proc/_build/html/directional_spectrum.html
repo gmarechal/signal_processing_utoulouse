@@ -62,8 +62,6 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'directional_spectrum';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tidal Waves" href="tidal_wave.html" />
-    <link rel="prev" title="Spectral Analysis on Geophysical Data" href="spectral_analysis_on_geo_record.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -126,6 +124,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -185,20 +185,14 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="random_1d_wave.html">Wave Properties</a></li>
 <li class="toctree-l1"><a class="reference internal" href="waves_in_the_ocean.html">Waves in the Ocean</a></li>
-<li class="toctree-l1"><a class="reference internal" href="superposition_of_waves.html">Superposition of Monochromatic Waves</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Surface Gravity Wave Analysis from In-Situ Platform</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="wave_by_wave_analysis.html">Wave Statistics based on wave-by-wave analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_spectral_analyses.html">First Spectral Analyses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="spectral_analysis_on_geo_record.html">Spectral Analysis on Geophysical Data</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Directional Wave spectrum</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analysis of Tidal Signal</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tidal_wave.html">Tidal Waves</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tidal_analysis.html">Tide spectral analysis.</a></li>
-<li class="toctree-l1"><a class="reference internal" href="harmonics_analysis.html">Harmonic Analysis of a Tidal Signal and Forecast</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wave_by_wave_analysis.html">Wave Statistics based on wave-by-wave analysis</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Xarray</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Xarray_tutorial.html">Some documentation aboout the Xarray Package</a></li>
 </ul>
 
     </div>
@@ -449,12 +443,6 @@ document.write(`
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">period_from_wavelength</span><span class="p">(</span><span class="n">WL</span><span class="p">):</span>
-	<span class="n">T</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">WL</span><span class="o">/</span><span class="mf">9.81</span><span class="p">)</span> <span class="c1">#wind waves in deep water : dispersion relation</span>
-
-	<span class="k">return</span> <span class="n">T</span>
-
-
 <span class="c1">#2D wave spectrum</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">buoy_spectrum2d</span><span class="p">(</span><span class="n">sf</span><span class="p">,</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">,</span><span class="n">b1</span><span class="p">,</span><span class="n">b2</span><span class="p">,</span> <span class="n">dirs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">365</span><span class="p">,</span><span class="mi">10</span><span class="p">)):</span>
@@ -636,7 +624,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/bx/gz6w8d_533x2h1m1pq2pt88m0000gn/T/ipykernel_26948/2379821450.py:129: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/bx/gz6w8d_533x2h1m1pq2pt88m0000gn/T/ipykernel_74579/1811403215.py:123: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
   plt.tight_layout()
 </pre></div>
 </div>
@@ -704,24 +692,6 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="spectral_analysis_on_geo_record.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Spectral Analysis on Geophysical Data</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="tidal_wave.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Tidal Waves</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               

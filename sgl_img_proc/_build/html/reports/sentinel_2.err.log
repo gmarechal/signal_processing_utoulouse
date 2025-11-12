@@ -1,0 +1,43 @@
+Traceback (most recent call last):
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+(sub_image*scale_factor).plot()
+------------------
+
+[31m---------------------------------------------------------------------------[39m
+[31mNameError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[7][39m[32m, line 1[39m
+[32m----> [39m[32m1[39m (sub_image*[43mscale_factor[49m).plot()
+
+[31mNameError[39m: name 'scale_factor' is not defined
+NameError: name 'scale_factor' is not defined
+

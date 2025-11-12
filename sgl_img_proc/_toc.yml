@@ -8,16 +8,9 @@ parts:
     chapters:
     - file: random_1d_wave
     - file: waves_in_the_ocean
-    - file: superposition_of_waves
   - caption: Surface Gravity Wave Analysis from In-Situ Platform
     chapters:
     - file: wave_by_wave_analysis
-    - file: first_spectral_analyses
-    - file: spectral_analysis_on_geo_record
-    - file: directional_spectrum
-  - caption: Analysis of Tidal Signal
+  - caption: Xarray
     chapters:
-    - file: tidal_wave
-    - file: tidal_analysis
-    - file: harmonics_analysis
-
+    - file: Xarray_tutorial

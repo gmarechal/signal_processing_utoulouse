@@ -1,0 +1,165 @@
+Traceback (most recent call last):
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/gwen29360/opt/anaconda3/envs/utoulouse/lib/python3.13/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+def create_UTC_axis(ds_xyz, arrayIndex):
+
+    """
+    Purpose: Create the time axis associated to the motion along x, y, and z dimension
+    ----------
+    inputs:
+    --------
+    ds_xyz: the xarray dataset that contain the motions
+    arrayIndex: The array of second
+    output:
+    --------
+    time_array: datetime64 object in s. 
+    """
+    
+    arrayIndex = xr.DataArray(arrayIndex, attrs={'units': 'nb_of_obs'}).astype('timedelta64[s]')
+
+    
+    sample_rate_sec = xr.DataArray(ds_xyz.xyzSampleRate.values, attrs={'units': 's'}).astype('timedelta64[s]')
+    filter_delay_sec = xr.DataArray(ds_xyz.xyzFilterDelay.values, attrs={'units': 's'}).astype('timedelta64[s]')
+    time_axis = xr.DataArray(arrayIndex/sample_rate_sec, attrs={'units': 's'}).astype('timedelta64[s]')
+
+    time_array = ds_xyz.xyzStartTime.values + time_axis - filter_delay_sec
+    return time_array
+
+def wave_frequency_spectrum(elevation, Fs = 1.2):
+    """
+    Purpose: Perform the frequency spectrum of the elevation signal
+    ----------
+    inputs:
+    --------
+    elevation: the motion along z (elevation induced by waves)
+    Fs: The sampling frequency
+    
+    output:
+    --------
+     freq: the frequency axis
+     spec_corr: the wave frequency spectrum. _corr stand for correction of the windowing
+    """
+    
+    nfft = len(elevation)  # The number of point for the spectral analysis
+    
+    Nf = int(nfft/2 + 1)  # The number of frequencies
+    # Nf = 200
+    df = Fs/nfft  # The spectral resolution
+    freq = np.linspace(df, df*(Nf-1), (Nf-1))  # Define the frequency axis
+
+    #########
+    # --- The heart of the spectral analysis
+    #########
+    
+    hanningt =  # Hanning window
+    wc2t = 1/np.mean(hanningt**2)  # Correction factor
+    Zw =   # Apply the window to avoid spectral leakage (put to 0 the extrema) + detrend
+    Zf =   # Apply the Fourier Transform
+    spec =   # Compute the power spectral density
+    spec_folded = 
+
+    hs_spec = ###### compute Hs from the spectrum
+    #print(f'The significant wave height associated to the spectrum is {hs_spec} m')
+    #print('\n')
+    #print(f'The significant wave height associated to the elevation is {4 * np.sqrt(elevation.var())} m')
+
+    spec_corr =  spec_folded * wc2t  # Correct the spectrum
+    hs_spec_corr = ###### compute Hs from the corrected spectrum
+    #print(f'The significant wave height associated to the spectrum is {hs_spec_corr} m')
+
+    return freq, spec_corr
+
+
+def wave_frequency_spectrum_overlap(elevation, overlap, nfft,  Fs = 1.2):
+
+    """
+    Purpose: Perform the frequency spectrum of the elevation signal with the signal cut in segments with overlap
+    ----------
+    inputs:
+    --------
+    elevation: the motion along z (elevation induced by waves)
+    overlap: the overlap between segments in %
+    nfft: tthe number of point per segments
+    Fs: The sampling frequency
+    
+    output:
+    --------
+     freq: the frequency axis
+     spec_corr_mean: the mean wave frequency spectrum. _corr stand for correction of the windowing
+    """  
+    Nf = int(nfft/2 + 1) # The number of frequencies
+    NS1 = len(elevation)//nfft # The number point per segment
+    ov = ######### percentage -> decimal 
+    NS = ######### # number of point per segment
+    
+    Eh = np.ones((int(NS), 1)) # Initialize array of NS pts
+    hanningt = ######### # Hanning window
+
+    H = ######### # 1d window
+    elevmat = np.zeros((nfft, int(NS))) # initialize matrix of length of spectrum times n_seg
+    vec_i = np.arange(0, NS, 1)
+    print(f'We chunk the signal into {int(NS)} windows')
+
+    df = ######### # frequency resolution
+    # freq = np.linspace(df, df*(Nf-1), (Nf - 1)) # frequency axis
+
+    for iw in range(len(vec_i)): # fill matrix of sub sample
+        nstart = np.floor((iw-1+1)*(1 - ov) * nfft)
+        nend = nstart + nfft
+        elevmat[:, iw] = elevation[int(nstart):int(nend)]
+
+    Nf2 = len(elevmat[:, -1])//2 # I take the last window, but any one works
+    freq = np.linspace(df, df*(Nf2-1), (Nf2)) # frequency axis
+
+    elevmat2 = elevmat.T
+    
+    wc2t = ######### # correction factor
+    Zw = ######### # Windowed signals + remove trend
+
+    Zf = ######### # Fourier transform of the windowed signals
+
+    spec = ######### # Power spectral density of the spectra
+    spec_folded = ########## Fold the spectrum
+    spec_corr = ######### # correct the spectrum because of window
+    spec_corr_mean = np.mean(spec_corr, axis = 0).T # mean spectrum
+
+    return freq, spec_corr_mean
+
+------------------
+
+  [36mCell[39m[36m [39m[32mIn[2][39m[32m, line 51[39m
+[31m    [39m[31mhanningt =  # Hanning window[39m
+                ^
+[31mSyntaxError[39m[31m:[39m invalid syntax
+
+SyntaxError: invalid syntax (643748382.py, line 51)
+
