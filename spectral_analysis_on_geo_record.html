@@ -185,10 +185,12 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="random_1d_wave.html">Wave Properties</a></li>
 <li class="toctree-l1"><a class="reference internal" href="waves_in_the_ocean.html">Waves in the Ocean</a></li>
+<li class="toctree-l1"><a class="reference internal" href="superposition_of_waves.html">Superposition of Monochromatic Waves</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Surface Gravity Wave Analysis from In-Situ Platform</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="wave_by_wave_analysis.html">Wave Statistics based on wave-by-wave analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_spectral_analyses.html">First Spectral Analyses</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Xarray</span></p>
 <ul class="nav bd-sidenav">
@@ -388,10 +390,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-for-the-spectral-analysis">Functions for the Spectral Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-functions-we-use-for-this-practical">The Functions we use for this practical</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wave-elevation-signal-the-signal-we-are-processing">The wave elevation signal. The signal we are processing.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plots-the-spectra">Plots the Spectra:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-characteristics-let-s-spot-the-dominant-wave-frequencies-periods-and-the-significant-wave-height">Wave characteristics: let’s spot the dominant wave frequencies (periods) and the significant wave height</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainties">Uncertainties</a></li>
@@ -431,8 +432,15 @@ document.write(`
 </div>
 </div>
 </div>
-<section id="functions-for-the-spectral-analysis">
-<h2>Functions for the Spectral Analysis<a class="headerlink" href="#functions-for-the-spectral-analysis" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="mf">9.81</span> <span class="c1">#m/sec^2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="the-functions-we-use-for-this-practical">
+<h2>The Functions we use for this practical<a class="headerlink" href="#the-functions-we-use-for-this-practical" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create_UTC_axis</span><span class="p">(</span><span class="n">ds_xyz</span><span class="p">,</span> <span class="n">arrayIndex</span><span class="p">):</span>
@@ -485,23 +493,15 @@ document.write(`
     <span class="c1"># --- The heart of the spectral analysis</span>
     <span class="c1">#########</span>
     
-    <span class="n">hanningt</span> <span class="o">=</span>  <span class="c1"># Hanning window</span>
+    <span class="n">hanningt</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nfft</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nfft</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">nfft</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>  <span class="c1"># Hanning window</span>
     <span class="n">wc2t</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">hanningt</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Correction factor</span>
-    <span class="n">Zw</span> <span class="o">=</span>   <span class="c1"># Apply the window to avoid spectral leakage (put to 0 the extrema) + detrend</span>
-    <span class="n">Zf</span> <span class="o">=</span>   <span class="c1"># Apply the Fourier Transform</span>
-    <span class="n">spec</span> <span class="o">=</span>   <span class="c1"># Compute the power spectral density</span>
-    <span class="n">spec_folded</span> <span class="o">=</span> 
-
-    <span class="n">hs_spec</span> <span class="o">=</span> <span class="c1">###### compute Hs from the spectrum</span>
-    <span class="c1">#print(f&#39;The significant wave height associated to the spectrum is {hs_spec} m&#39;)</span>
-    <span class="c1">#print(&#39;\n&#39;)</span>
-    <span class="c1">#print(f&#39;The significant wave height associated to the elevation is {4 * np.sqrt(elevation.var())} m&#39;)</span>
+    <span class="n">Zw</span> <span class="o">=</span> <span class="p">(</span><span class="n">elevation</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">elevation</span><span class="p">))</span> <span class="o">*</span> <span class="n">hanningt</span>  <span class="c1"># Apply the window to avoid spectral leakage (put to 0 the extrema) + detrend</span>
+    <span class="n">Zf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">Zw</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">nfft</span>  <span class="c1"># Apply the Fourier Transform</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Zf</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">df</span>  <span class="c1"># Compute the power spectral density</span>
+    <span class="n">spec_folded</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">spec</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">Nf</span><span class="p">]</span>
 
     <span class="n">spec_corr</span> <span class="o">=</span>  <span class="n">spec_folded</span> <span class="o">*</span> <span class="n">wc2t</span>  <span class="c1"># Correct the spectrum</span>
-    <span class="n">hs_spec_corr</span> <span class="o">=</span> <span class="c1">###### compute Hs from the corrected spectrum</span>
-    <span class="c1">#print(f&#39;The significant wave height associated to the spectrum is {hs_spec_corr} m&#39;)</span>
-
-    <span class="k">return</span> <span class="n">freq</span><span class="p">,</span> <span class="n">spec_corr</span>
+    <span class="k">return</span> <span class="n">freq</span><span class="p">,</span> <span class="n">spec_corr</span><span class="p">,</span> <span class="n">spec_folded</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">wave_frequency_spectrum_overlap</span><span class="p">(</span><span class="n">elevation</span><span class="p">,</span> <span class="n">overlap</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span>  <span class="n">Fs</span> <span class="o">=</span> <span class="mf">1.2</span><span class="p">):</span>
@@ -523,18 +523,18 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>  
     <span class="n">Nf</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">nfft</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># The number of frequencies</span>
     <span class="n">NS1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevation</span><span class="p">)</span><span class="o">//</span><span class="n">nfft</span> <span class="c1"># The number point per segment</span>
-    <span class="n">ov</span> <span class="o">=</span> <span class="c1">######### percentage -&gt; decimal </span>
-    <span class="n">NS</span> <span class="o">=</span> <span class="c1">######### # number of point per segment</span>
+    <span class="n">ov</span> <span class="o">=</span> <span class="n">overlap</span><span class="o">/</span><span class="mi">100</span> <span class="c1"># percentage of overlap between segments</span>
+    <span class="n">NS</span> <span class="o">=</span> <span class="n">NS1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">ov</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">ov</span> <span class="c1"># number of point per segment</span>
     
     <span class="n">Eh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">NS</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="c1"># Initialize array of NS pts</span>
-    <span class="n">hanningt</span> <span class="o">=</span> <span class="c1">######### # Hanning window</span>
+    <span class="n">hanningt</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nfft</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nfft</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">nfft</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span> <span class="c1"># Hanning window</span>
 
-    <span class="n">H</span> <span class="o">=</span> <span class="c1">######### # 1d window</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">hanningt</span> <span class="o">*</span> <span class="n">Eh</span> <span class="c1"># 1d window</span>
     <span class="n">elevmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nfft</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">NS</span><span class="p">)))</span> <span class="c1"># initialize matrix of length of spectrum times n_seg</span>
     <span class="n">vec_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">NS</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;We chunk the signal into </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">NS</span><span class="p">)</span><span class="si">}</span><span class="s1"> windows&#39;</span><span class="p">)</span>
 
-    <span class="n">df</span> <span class="o">=</span> <span class="c1">######### # frequency resolution</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">Fs</span><span class="o">/</span><span class="n">nfft</span> <span class="c1"># frequency resolution</span>
     <span class="c1"># freq = np.linspace(df, df*(Nf-1), (Nf - 1)) # frequency axis</span>
 
     <span class="k">for</span> <span class="n">iw</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vec_i</span><span class="p">)):</span> <span class="c1"># fill matrix of sub sample</span>
@@ -542,30 +542,22 @@ document.write(`
         <span class="n">nend</span> <span class="o">=</span> <span class="n">nstart</span> <span class="o">+</span> <span class="n">nfft</span>
         <span class="n">elevmat</span><span class="p">[:,</span> <span class="n">iw</span><span class="p">]</span> <span class="o">=</span> <span class="n">elevation</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">nstart</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">nend</span><span class="p">)]</span>
 
-    <span class="n">Nf2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevmat</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">//</span><span class="mi">2</span> <span class="c1"># I take the last window, but any one works</span>
+    <span class="n">Nf2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">elevmat</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">//</span><span class="mi">2</span> <span class="c1"># I take the last window, but any one work</span>
     <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">df</span><span class="o">*</span><span class="p">(</span><span class="n">Nf2</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">Nf2</span><span class="p">))</span> <span class="c1"># frequency axis</span>
 
     <span class="n">elevmat2</span> <span class="o">=</span> <span class="n">elevmat</span><span class="o">.</span><span class="n">T</span>
     
-    <span class="n">wc2t</span> <span class="o">=</span> <span class="c1">######### # correction factor</span>
-    <span class="n">Zw</span> <span class="o">=</span> <span class="c1">######### # Windowed signals + remove trend</span>
+    <span class="n">wc2t</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">hanningt</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># correction factor</span>
+    <span class="n">Zw</span> <span class="o">=</span> <span class="p">(</span><span class="n">elevmat2</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">elevmat2</span><span class="p">))</span> <span class="o">*</span> <span class="n">hanningt</span> <span class="c1"># Windowed signals + remove trend</span>
 
-    <span class="n">Zf</span> <span class="o">=</span> <span class="c1">######### # Fourier transform of the windowed signals</span>
+    <span class="n">Zf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">Zw</span><span class="p">,</span> <span class="n">nfft</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">nfft</span> <span class="c1"># Fourier transform of the windowed signals, normalized by the number of point used</span>
 
-    <span class="n">spec</span> <span class="o">=</span> <span class="c1">######### # Power spectral density of the spectra</span>
-    <span class="n">spec_folded</span> <span class="o">=</span> <span class="c1">########## Fold the spectrum</span>
-    <span class="n">spec_corr</span> <span class="o">=</span> <span class="c1">######### # correct the spectrum because of window</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">Zf</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>  <span class="o">/</span> <span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="c1"># Power spectral density of the spectra</span>
+    <span class="n">spec_folded</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">spec</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># Fold the spectrum</span>
+    <span class="n">spec_corr</span> <span class="o">=</span> <span class="n">spec_folded</span> <span class="o">*</span> <span class="n">wc2t</span> <span class="c1"># correct the spectrum because of window</span>
     <span class="n">spec_corr_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">spec_corr</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="c1"># mean spectrum</span>
 
-    <span class="k">return</span> <span class="n">freq</span><span class="p">,</span> <span class="n">spec_corr_mean</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">51</span>
-    <span class="n">hanningt</span> <span class="o">=</span>  <span class="c1"># Hanning window</span>
-                <span class="o">^</span>
-<span class="ne">SyntaxError</span>: invalid syntax
+    <span class="k">return</span> <span class="n">freq</span><span class="p">,</span> <span class="n">spec_corr_mean</span><span class="p">,</span> <span class="n">spec_folded</span>
 </pre></div>
 </div>
 </div>
@@ -581,11 +573,31 @@ document.write(`
 <span class="n">ds_buoy</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_url_data</span><span class="p">)</span>
 <span class="n">ds_operationel</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">file_url_param</span><span class="p">)</span>
 
-<span class="n">n_data</span> <span class="o">=</span> <span class="mi">3000</span>
+<span class="n">n_data</span> <span class="o">=</span> <span class="mi">3000</span> <span class="c1"># there are 100_000 surface elevation data, we load 3000 of them</span>
 
 <span class="n">arrayIndex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_data</span><span class="p">,</span> <span class="n">n_data</span><span class="p">)</span> <span class="c1"># an array of ~ 30 min</span>
 <span class="n">time_UTC</span> <span class="o">=</span> <span class="n">create_UTC_axis</span><span class="p">(</span><span class="n">ds_buoy</span><span class="p">,</span> <span class="n">arrayIndex</span><span class="p">)</span>
 <span class="n">elevation</span> <span class="o">=</span>  <span class="n">ds_buoy</span><span class="o">.</span><span class="n">xyzZDisplacement</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">arrayIndex</span><span class="p">)]</span> <span class="c1"># work on a 30 min window</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="n">time_UTC</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">time_UTC</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Convert to total minutes</span>
+<span class="n">total_minutes</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">)</span>
+<span class="c1"># Compute hours and minutes</span>
+<span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">total_minutes</span> <span class="o">//</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">minutes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">total_minutes</span> <span class="o">%</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The duration of the record is of </span><span class="si">{</span><span class="n">hours</span><span class="si">}</span><span class="s2"> hours </span><span class="si">{</span><span class="n">minutes</span><span class="si">}</span><span class="s2"> minutes&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The duration of the record is of 0 hours 50 minutes
 </pre></div>
 </div>
 </div>
@@ -607,7 +619,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmax</span> <span class="o">=</span> <span class="n">ds_operationel</span><span class="o">.</span><span class="n">waveFrequency</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">values</span> <span class="c1"># get the highest frequency in the reference Dataset</span>
-<span class="n">fs</span> <span class="o">=</span> <span class="c1">#####  # the sampling frequency (Nyquist)</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">fmax</span> <span class="c1"># the sampling frequency is twice the highest frequency resolved in the reference dataset (Nyquist)</span>
 </pre></div>
 </div>
 </div>
@@ -618,37 +630,80 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_UTC</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Wave Amplitude [m]&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/1fbb3a798807a828a26d391e60aa2359ca4f9a80677fc84a886c162702b95ccd.png" src="_images/1fbb3a798807a828a26d391e60aa2359ca4f9a80677fc84a886c162702b95ccd.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Hs</span> <span class="o">=</span>  <span class="c1">###### The significant wave heigth from elevation data</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Wave Amplitude [m]&#39;)
 </pre></div>
 </div>
+<img alt="_images/143ceea51fba89ad3cb78071e69037abab10887c07eb45c4fc6851b6577378d9.png" src="_images/143ceea51fba89ad3cb78071e69037abab10887c07eb45c4fc6851b6577378d9.png" />
 </div>
 </div>
-</section>
-<section id="id1">
-<h2><a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">freq_raw</span><span class="p">,</span> <span class="n">spec_raw</span> <span class="o">=</span> <span class="n">wave_frequency_spectrum</span><span class="p">(</span><span class="n">elevation</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_buoy</span><span class="o">.</span><span class="n">xyzSampleRate</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="c1"># The raw spectral analysis</span>
-<span class="n">freq_smooth</span><span class="p">,</span> <span class="n">spec_corr_mean</span> <span class="o">=</span> <span class="n">wave_frequency_spectrum_overlap</span><span class="p">(</span><span class="n">elevation</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span>  <span class="n">Fs</span> <span class="o">=</span> <span class="n">ds_buoy</span><span class="o">.</span><span class="n">xyzSampleRate</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="c1"># The Welch Method</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">abs</span><span class="p">((</span><span class="n">elevation</span><span class="p">[</span><span class="n">elevation</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)),</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">cdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span> <span class="c1"># the cumulative density function</span>
+<span class="n">cdf</span> <span class="o">=</span> <span class="n">cdf</span> <span class="o">/</span> <span class="n">cdf</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># normalize to [0, 1]</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">cdf</span><span class="p">,</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># lower bound of highest 1/3 waves</span>
+<span class="n">H_1_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="n">idx</span><span class="p">:])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The H_1/3 is equal to </span><span class="si">{</span><span class="n">H_1_3</span><span class="si">}</span><span class="s1"> m&#39;</span><span class="p">)</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="c1"># for simplicity I assume the crest and the trough as symmetric, which is not true!</span>
+<span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">elevation</span><span class="p">))</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="n">idx</span><span class="p">:]),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="n">idx</span><span class="p">:])],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">counts</span><span class="o">.</span><span class="n">max</span><span class="p">()],</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;H_1/3&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Wave amplitude [m]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Occurence&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>We chunk the signal into 39 windows
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The H_1/3 is equal to 1.2170000076293945 m
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x16d484830&gt;
+</pre></div>
+</div>
+<img alt="_images/d280a1895c25e6576f4e8277ff32d42c953ce337c0ebc2eb3632f17aa98753a8.png" src="_images/d280a1895c25e6576f4e8277ff32d42c953ce337c0ebc2eb3632f17aa98753a8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Hs</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="c1">##### the significant wave height</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+    <span class="n">Hs</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="c1">##### the significant wave height</span>
+             <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">freq_raw</span><span class="p">,</span> <span class="n">spec_raw</span><span class="p">,</span> <span class="n">spec_uncorrected_raw</span> <span class="o">=</span> <span class="n">wave_frequency_spectrum</span><span class="p">(</span><span class="n">elevation</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_buoy</span><span class="o">.</span><span class="n">xyzSampleRate</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="c1"># The raw spectral analysis</span>
+<span class="c1"># freq_smooth, spec_corr_mean, spec_uncorrected = wave_frequency_spectrum_overlap(elevation.values, 50, 150,  Fs = ds_buoy.xyzSampleRate.values) # The Welch Method</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>This method of chunk the total signal into sub-signal is called the Welch’s method. Don’t forget to window all the chunks to avoid spectral leakage.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Hs_no_cor</span> <span class="o">=</span>  <span class="c1">###### The significant wave heigth from spectral data (from data in the Fourier space)</span>
+<span class="n">Hs_corrected</span> <span class="o">=</span>  <span class="c1">###### The significant wave heigth from spectral data (from data in the Fourier space)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="plots-the-spectra">
 <h2>Plots the Spectra:<a class="headerlink" href="#plots-the-spectra" title="Link to this heading">#</a></h2>
@@ -661,7 +716,7 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax_inset</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">.5</span><span class="p">,</span> <span class="mf">.5</span><span class="p">,</span> <span class="mf">.3</span><span class="p">,</span> <span class="mf">.3</span><span class="p">])</span>
-<span class="c1"># ax.plot(freq_raw, spec_raw, color = &#39;k&#39;, alpha = .4, label = &#39;Raw spectrum&#39;)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq_raw</span><span class="p">,</span> <span class="n">spec_raw</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Raw spectrum&#39;</span><span class="p">)</span>
 
 <span class="c1"># ax.plot(freq_smooth, spec_corr_mean, color = &#39;teal&#39;, label = &#39;Filtered spectrum&#39;)</span>
 <span class="n">mean_spec_operational</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;tomato&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Reference spectrum&#39;</span><span class="p">)</span>
@@ -678,7 +733,7 @@ document.write(`
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;&#39;)
 </pre></div>
 </div>
-<img alt="_images/ca38f59f9ff64115b77523968abb25af4e5b4473897a45c0931a292ec7eaa5b8.png" src="_images/ca38f59f9ff64115b77523968abb25af4e5b4473897a45c0931a292ec7eaa5b8.png" />
+<img alt="_images/9e39b08dcbabdca68ff47d908a824369b31f52afeb67037af2f407242eaea9b5.png" src="_images/9e39b08dcbabdca68ff47d908a824369b31f52afeb67037af2f407242eaea9b5.png" />
 </div>
 </div>
 </section>
@@ -686,15 +741,36 @@ document.write(`
 <h2>Wave characteristics: let’s spot the dominant wave frequencies (periods) and the significant wave height<a class="headerlink" href="#wave-characteristics-let-s-spot-the-dominant-wave-frequencies-periods-and-the-significant-wave-height" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">peaks_spectrum</span> <span class="o">=</span> <span class="n">find_peaks</span><span class="p">(</span><span class="n">spec_corr_mean</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">.5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># here, the present height threshold is ONLY applicable for this record </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">peaks_spectrum</span> <span class="o">=</span> <span class="n">find_peaks</span><span class="p">(</span><span class="n">spec_corr_mean</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">.05</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># here, the height and width threshold are ONLY applicable for this record </span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">freq_smooth</span><span class="p">)</span> <span class="c1"># the frequency step</span>
 
-<span class="n">hs_raw</span> <span class="o">=</span> <span class="c1">##########</span>
-<span class="n">hs_spec</span> <span class="o">=</span> <span class="c1">##########</span>
+<span class="c1"># hs_raw = ########## with spec_raw</span>
+<span class="c1"># hs_spec = ########## with spec_uncorrected_raw</span>
 <span class="n">hs_ope</span> <span class="o">=</span> <span class="n">ds_operation_sel</span><span class="o">.</span><span class="n">waveHs</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="s1">&#39;waveTime&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq_smooth</span><span class="p">,</span> <span class="n">spec_corr_mean</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;teal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq_smooth</span><span class="p">[</span><span class="n">peaks_spectrum</span><span class="p">],</span> <span class="n">spec_corr_mean</span><span class="p">[</span><span class="n">peaks_spectrum</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;wave systems&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Frequency [Hz]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;PSD [m$^2$/Hz]&#39;</span><span class="p">)</span>
+<span class="n">omega_wave_system_one</span> <span class="o">=</span>  <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">freq_smooth</span><span class="p">[</span><span class="n">peaks_spectrum</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">omega_wave_system_two</span> <span class="o">=</span>  <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">freq_smooth</span><span class="p">[</span><span class="n">peaks_spectrum</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">omega_wave_system_three</span> <span class="o">=</span>  <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">freq_smooth</span><span class="p">[</span><span class="n">peaks_spectrum</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">omega_wave_system_four</span> <span class="o">=</span>  <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">freq_smooth</span><span class="p">[</span><span class="n">peaks_spectrum</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="c1"># wavelengths = ##########</span>
+<span class="c1"># phase_speeds = ##########</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/bb3855968c4f9529ccfe3bf6e03c79da45ac14aae222722aedc50e94c3b2bb55.png" src="_images/bb3855968c4f9529ccfe3bf6e03c79da45ac14aae222722aedc50e94c3b2bb55.png" />
 </div>
 </div>
 </section>
@@ -761,10 +837,9 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-for-the-spectral-analysis">Functions for the Spectral Analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-functions-we-use-for-this-practical">The Functions we use for this practical</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-wave-elevation-signal-the-signal-we-are-processing">The wave elevation signal. The signal we are processing.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plots-the-spectra">Plots the Spectra:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wave-characteristics-let-s-spot-the-dominant-wave-frequencies-periods-and-the-significant-wave-height">Wave characteristics: let’s spot the dominant wave frequencies (periods) and the significant wave height</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainties">Uncertainties</a></li>
