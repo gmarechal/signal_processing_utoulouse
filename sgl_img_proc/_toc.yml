@@ -8,9 +8,11 @@ parts:
     chapters:
     - file: random_1d_wave
     - file: waves_in_the_ocean
+    - file: superposition_of_waves
   - caption: Surface Gravity Wave Analysis from In-Situ Platform
     chapters:
     - file: wave_by_wave_analysis
+    - file: first_spectral_analyses-Correction
   - caption: Xarray
     chapters:
     - file: Xarray_tutorial
