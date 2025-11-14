@@ -13,6 +13,8 @@ parts:
     chapters:
     - file: wave_by_wave_analysis
     - file: first_spectral_analyses-Correction
+    - file: spectral_analysis_on_geo_record
+    - file: directional_spectrum
   - caption: Xarray
     chapters:
     - file: Xarray_tutorial
