@@ -30,13 +30,21 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-Hs = 4 * ##### the significant wave height
+fig, ax = plt.subplots(figsize = (7, 3))
+ax.plot(time_UTC, elevation, color = 'k')
+ax.plot(time_UTC, Zw, color = 'r')
+
+ax.set_ylabel('Wave Amplitude [m]')
 ------------------
 
-  [36mCell[39m[36m [39m[32mIn[11][39m[32m, line 1[39m
-[31m    [39m[31mHs = 4 * ##### the significant wave height[39m
-             ^
-[31mSyntaxError[39m[31m:[39m invalid syntax
+[31m---------------------------------------------------------------------------[39m
+[31mNameError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[12][39m[32m, line 3[39m
+[32m      1[39m fig, ax = plt.subplots(figsize = ([32m7[39m, [32m3[39m))
+[32m      2[39m ax.plot(time_UTC, elevation, color = [33m'[39m[33mk[39m[33m'[39m)
+[32m----> [39m[32m3[39m ax.plot(time_UTC, [43mZw[49m, color = [33m'[39m[33mr[39m[33m'[39m)
+[32m      5[39m ax.set_ylabel([33m'[39m[33mWave Amplitude [m][39m[33m'[39m)
 
-SyntaxError: invalid syntax (950910176.py, line 1)
+[31mNameError[39m: name 'Zw' is not defined
+NameError: name 'Zw' is not defined
 
