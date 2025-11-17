@@ -36,7 +36,7 @@ hs_spec_2d = ######
 print(f'The associated significant wave height is {hs_spec_2d} m')
 ------------------
 
-  [36mCell[39m[36m [39m[32mIn[12][39m[32m, line 3[39m
+  [36mCell[39m[36m [39m[32mIn[13][39m[32m, line 3[39m
 [31m    [39m[31mhs_spec_2d = ######[39m
                  ^
 [31mSyntaxError[39m[31m:[39m invalid syntax
