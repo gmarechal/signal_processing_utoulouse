@@ -90,7 +90,7 @@ $$
 $$
 
 with g the acceleration due to the gravity, which acts as the restoring force of the waves, and D the depth below the wave field. From this relation you can compute the wave wavenumber (wavelength) for a given wave frequency (period). However, one can notice that this relationship cannot be inverted i.e., compute k from $\omega$. Fortunately, the $tanh$ function can be approximated based on its argument (kD):
- -  If kD tends toward 1, we are in a shallow water regime and $\omega^2 \sim \sqrt{kD}k$
+ -  If kD tends toward 1, we are in a shallow water regime and $\omega^2 \sim gDk^2$
  -  If kD tends toward a big number, therefore we are in a deep water regime and $\omega^2 \sim gk$. 
 - For intermediate water (kD$\sim$ 1), the full expression of the dispersion relationship must be considered, and inverting it requires numerical methods (e.g., the Newton–Raphson method).
 

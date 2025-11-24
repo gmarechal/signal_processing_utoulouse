@@ -1,0 +1,20 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+  - caption: Introduction to Wave Analysis
+    chapters:
+    - file: random_1d_wave
+    - file: waves_in_the_ocean
+    - file: superposition_of_waves
+  - caption: Surface Gravity Wave Analysis from In-Situ Platform
+    chapters:
+    - file: wave_by_wave_analysis
+    - file: first_spectral_analyses-Correction
+    - file: spectral_analysis_on_geo_record-Correction
+    - file: directional_spectrum
+  - caption: Xarray
+    chapters:
+    - file: Xarray_tutorial
