@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; Signals and Images Processing</title>
+    <title>Spectral Analysis of Sentinel-2 image &#8212; Signals and Images Processing</title>
   
   
   
@@ -57,9 +57,13 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'sentinel_2';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Some documentation aboout the Xarray Package" href="Xarray_tutorial.html" />
+    <link rel="prev" title="Harmonic Analysis of a Tidal Signal and Forecast" href="harmonics_analysis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -121,8 +125,6 @@
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -191,6 +193,16 @@
 <li class="toctree-l1"><a class="reference internal" href="first_spectral_analyses-Correction.html">First Spectral Analyses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spectral_analysis_on_geo_record-Correction.html">Spectral Analysis on Geophysical Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="directional_spectrum.html">Directional Wave spectrum</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tidal Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tidal_wave.html">Tidal Waves</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tidal_analysis.html">Tide spectral analysis.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="harmonics_analysis.html">Harmonic Analysis of a Tidal Signal and Forecast</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sentinel 2</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Spectral Analysis of Sentinel-2 image</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Xarray</span></p>
 <ul class="nav bd-sidenav">
@@ -380,7 +392,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>Spectral Analysis of Sentinel-2 image</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -389,9 +401,12 @@ document.write(`
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-analysis">Spectral analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-the-two-dimensional-spectral-analysis">Start the two-dimensional spectral analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-wavenumber-spectrum">Plot the wavenumber spectrum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#switch-from-carthesian-to-polar-coordinate">Switch from Carthesian to Polar coordinate</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -402,9 +417,17 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="cell docutils container">
+  <section class="tex2jax_ignore mathjax_ignore" id="spectral-analysis-of-sentinel-2-image">
+<h1>Spectral Analysis of Sentinel-2 image<a class="headerlink" href="#spectral-analysis-of-sentinel-2-image" title="Link to this heading">#</a></h1>
+<p>Sentinel-2 is an Earth-observation mission funded by the European Space Agency that acquires high-resolution “images” of the Earth’s surface using a multispectral optical sensor. The constellation currently consists of three satellites (Sentinel-2A, -2B, and -2C), beginning with the launch of Sentinel-2A in 2015. Sentinel-2 is a passive optical system: it does not emit radiation but instead relies on sunlight reflected from the Earth’s surface to form images.</p>
+<p>In the previous practical sessions, we focused on one-dimensional temporal signals. Here, we extend the signal-processing tools learned so far so they can be applied to two-dimensional spatial fields.</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span> 
+<span class="c1"># if /!\Error/!\ comment the two lines above</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 </pre></div>
@@ -413,67 +436,413 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_satellite</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;./data/S2_imag.nc&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_satellite</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;./data/S2_imag.nc&#39;</span><span class="p">)</span> <span class="c1"># Load the image (Netcdf format, open it with xarray)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">min_longitude</span><span class="p">,</span> <span class="n">max_longitude</span> <span class="o">=</span> <span class="mi">331</span><span class="p">,</span> <span class="mi">332</span>
-<span class="n">min_latitude</span><span class="p">,</span> <span class="n">max_latitude</span> <span class="o">=</span>  <span class="mi">39</span><span class="p">,</span> <span class="mi">38</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">185310</span><span class="o">/</span><span class="mi">27830</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.658641753503414
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">120</span><span class="o">/</span><span class="mf">6.6</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>18.181818181818183
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sub_image</span> <span class="o">=</span> <span class="n">ds_satellite</span><span class="o">.</span><span class="n">B02_10m</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">longitude</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">min_longitude</span><span class="p">,</span> <span class="n">max_longitude</span><span class="p">),</span> <span class="n">latitude</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">min_latitude</span><span class="p">,</span> <span class="n">max_latitude</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">sub_image</span><span class="o">*</span><span class="n">scale_factor</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="p">(</span><span class="n">sub_image</span><span class="o">*</span><span class="n">scale_factor</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##########</span>
+<span class="c1"># ---  The sub-domain for the 2D spectral analysis</span>
+<span class="c1">##########</span>
+<span class="n">min_longitude</span><span class="p">,</span> <span class="n">max_longitude</span> <span class="o">=</span> <span class="mf">332.2</span><span class="p">,</span> <span class="mf">332.4</span>
+<span class="n">min_latitude</span><span class="p">,</span> <span class="n">max_latitude</span> <span class="o">=</span> <span class="mf">39.3</span><span class="p">,</span> <span class="mf">39.1448</span>
 
-<span class="ne">NameError</span>: name &#39;scale_factor&#39; is not defined
+<span class="c1">##########</span>
+<span class="c1"># --- Transect for the plot below</span>
+<span class="c1">##########</span>
+<span class="n">longitude_transect_start</span> <span class="o">=</span> <span class="mf">332.22</span> <span class="c1"># degree East</span>
+<span class="n">longitude_transect_end</span> <span class="o">=</span> <span class="mf">332.32</span> <span class="c1"># degree East</span>
+<span class="n">lat_0</span> <span class="o">=</span> <span class="mf">39.20</span> <span class="c1"># degree north</span>
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sub_image</span> <span class="o">=</span> <span class="n">ds_satellite</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">longitude</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">min_longitude</span><span class="p">,</span> <span class="n">max_longitude</span><span class="p">),</span> <span class="n">latitude</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">min_latitude</span><span class="p">,</span> <span class="n">max_latitude</span><span class="p">))</span> <span class="c1"># select a box within the sentinel-2</span>
+<span class="n">image_lat0</span> <span class="o">=</span> <span class="n">ds_satellite</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">latitude</span> <span class="o">=</span> <span class="n">lat_0</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;nearest&#39;</span><span class="p">)</span> <span class="c1"># select a latitude</span>
+<span class="n">image_transect</span> <span class="o">=</span> <span class="n">image_lat0</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">longitude</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">longitude_transect_start</span><span class="p">,</span> <span class="n">longitude_transect_end</span><span class="p">))</span> <span class="c1"># Take a chunk for latitude selected above</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">p1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">ds_satellite</span><span class="o">.</span><span class="n">longitude</span><span class="p">[::</span><span class="mi">10</span><span class="p">],</span> <span class="n">ds_satellite</span><span class="o">.</span><span class="n">latitude</span><span class="p">[::</span><span class="mi">10</span><span class="p">],</span> <span class="n">ds_satellite</span><span class="o">.</span><span class="n">B02_10m</span><span class="p">[::</span><span class="mi">10</span><span class="p">,</span> <span class="p">::</span><span class="mi">10</span><span class="p">],</span> <span class="n">vmin</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">sub_image</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">sub_image</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span> <span class="n">sub_image</span><span class="o">.</span><span class="n">B02_10m</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;binary&#39;</span><span class="p">,</span> <span class="n">vmin</span> <span class="o">=</span> <span class="mi">8000</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">8001</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Longitude [$^{\circ}E$]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Latitude [$^{\circ}N$]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Pixel brightness&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">332.45</span><span class="p">,</span> <span class="mf">39.2</span><span class="p">,</span> <span class="s1">&#39;subdomain for</span><span class="se">\n</span><span class="s1">the spectral analysis&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(332.45, 39.2, &#39;subdomain for\nthe spectral analysis&#39;)
+</pre></div>
+</div>
+<img alt="_images/f6ed1296fb1b034cef6199126c500eba33fb4c1e644d7ca6a6a6490ea5577a41.png" src="_images/f6ed1296fb1b034cef6199126c500eba33fb4c1e644d7ca6a6a6490ea5577a41.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">sub_image</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">sub_image</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span> <span class="n">sub_image</span><span class="o">.</span><span class="n">B02_10m</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;binary_r&#39;</span><span class="p">,</span> <span class="n">vmin</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">longitude_transect_start</span><span class="p">,</span> <span class="n">longitude_transect_end</span><span class="p">],</span> <span class="p">[</span><span class="n">lat_0</span><span class="p">,</span> <span class="n">lat_0</span><span class="p">],</span> <span class="n">marker</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Longitude [$^{\circ}$E]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Latitude [$^{\circ}$N]&#39;</span><span class="p">)</span>
+<span class="n">ax_inset</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">.4</span><span class="p">,</span> <span class="mf">.6</span><span class="p">,</span> <span class="mf">.4</span><span class="p">,</span> <span class="mf">.2</span><span class="p">])</span>
+<span class="n">image_transect</span><span class="o">.</span><span class="n">B02_10m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax_inset</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="s1">&#39;box&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/32c2eca7eed653e0aaf1907402f2394574d6522ce82f8b1f474c565694411b97.png" src="_images/32c2eca7eed653e0aaf1907402f2394574d6522ce82f8b1f474c565694411b97.png" />
+</div>
+</div>
+<p>Wave crests (bright pixels) and troughs (dark pixels) are clearly visible in the image. The dominant wavelength of this wave field can be estimated by using the pixel size (~10 m) and counting the number of crests over a given distance. As in the one-dimensional case, the key question is: which crests and troughs actually contribute to the dominant signal?</p>
+<p>In addition, because the wave direction is not necessarily aligned with the satellite’s flight path, the wave field must be rotated into a reference frame aligned with the satellite track. Without this correction, the apparent wavelength may be artificially shortened or stretched by geometric projection effects.</p>
+<p>A robust and accurate way to estimate the dominant wavelength is therefore to apply spectral analysis to the two-dimensional field.
+Moreover, having a two-dimensional image of the wave field allows us to infer the directional properties of the observed wave system. In the example above, the waves are oriented along a NW–SE axis, but their directional spreading around this dominant direction remains unknown. These directional characteristics should emerge clearly in the two-dimensional spectrum.</p>
+<section id="spectral-analysis">
+<h2>Spectral analysis<a class="headerlink" href="#spectral-analysis" title="Link to this heading">#</a></h2>
+<p>The philosophy of the spectral analysis remains the same. We are describing the variance of the signal in the Fourier space, but now in 2D!! We have a spatial description of the waves in the physical space <span class="math notranslate nohighlight">\((x, y)\)</span>, so the spectrum will highlight the distribution of the wave energy along the “spatial frequencies” which are, in physics, the wavenumbers (units: 1/m).</p>
+<ul class="simple">
+<li><p>x<span class="math notranslate nohighlight">\(\rightarrow\)</span> k<span class="math notranslate nohighlight">\(_{x}\)</span></p></li>
+<li><p>y<span class="math notranslate nohighlight">\(\rightarrow\)</span> k<span class="math notranslate nohighlight">\(_{y}\)</span></p></li>
+</ul>
+<p>Let’s remind that for a temporal signal:</p>
+<ul class="simple">
+<li><p>t<span class="math notranslate nohighlight">\(\rightarrow\)</span> f</p></li>
+</ul>
+<p>Therefore:
+brightness(x, y) <span class="math notranslate nohighlight">\(\rightarrow^{FT}\)</span> E(<span class="math notranslate nohighlight">\(k_x\)</span>, <span class="math notranslate nohighlight">\(k_y\)</span>), with E(<span class="math notranslate nohighlight">\(k_x\)</span>, <span class="math notranslate nohighlight">\(k_y\)</span>) the two-dimensional spectrum.</p>
+<p>For the method it remains that same as the one-dimensional analysis:</p>
+<ul class="simple">
+<li><p>Define the sampling frequency <span class="math notranslate nohighlight">\(Fs\)</span> -&gt; <span class="math notranslate nohighlight">\(\propto 2\pi/dx\)</span></p></li>
+<li><p>Window the signal W(t)<span class="math notranslate nohighlight">\(\rightarrow\)</span>W(x, y)</p></li>
+<li><p>Apply the fourier transform FFT<span class="math notranslate nohighlight">\(\rightarrow\)</span>FFT2D</p></li>
+<li><p>normalization: <span class="math notranslate nohighlight">\(N_{t}\)</span>, df <span class="math notranslate nohighlight">\(\rightarrow\)</span> <span class="math notranslate nohighlight">\(N_{x}\)</span>, <span class="math notranslate nohighlight">\(N_{y}\)</span>, <span class="math notranslate nohighlight">\(dkx\)</span>, <span class="math notranslate nohighlight">\(dky\)</span></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">two_dimensional_wave_spectrum</span><span class="p">(</span><span class="n">field_2D</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose:</span>
+<span class="sd">    --------</span>
+<span class="sd">    Perform the spectral analysis of the 2D field with a pixel size of dx and dy</span>
+<span class="sd">    Inputs:</span>
+<span class="sd">    --------</span>
+<span class="sd">    field_2D: The 2D MASS swath (dimensions ~ 2500 m| x 500 m)</span>
+<span class="sd">    dx: pixel size in x</span>
+<span class="sd">    dy: pixel size in y</span>
+<span class="sd">    Outputs:</span>
+<span class="sd">    --------</span>
+<span class="sd">    phase_spec: The phase spectrum</span>
+<span class="sd">    kx, ky the zonal and the meridional wavenumbers</span>
+<span class="sd">    psd2D: The two-dimensional wave spectrum</span>
+<span class="sd">    Z_shift: the intermediate wave spectrum</span>
+<span class="sd">    dkx, dky: The wavenumber bins</span>
+<span class="sd">    wc2xy: The 2D window correction</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">Nx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">field_2D</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">Ny</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">field_2D</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1">#-----------------------------</span>
+    <span class="c1">###### hanning</span>
+    <span class="c1">#-----------------------------</span>
+    <span class="c1">#1D  windows</span>
+
+    <span class="n">hanningx</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">Nx</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">Nx</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">hanningy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">Ny</span><span class="p">))</span><span class="o">*</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">Ny</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">Ny</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">Ny</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+
+    <span class="n">hanningxy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matlib</span><span class="o">.</span><span class="n">repmat</span><span class="p">(</span><span class="n">hanningx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">matlib</span><span class="o">.</span><span class="n">repmat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">hanningy</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Nx</span><span class="p">)</span>
+
+    <span class="c1"># window correction factors</span>
+    <span class="n">wc2x</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">hanningx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">wc2y</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">hanningy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">wc2xy</span>  <span class="o">=</span> <span class="n">wc2x</span> <span class="o">*</span> <span class="n">wc2y</span>
+
+    <span class="c1">#----------------------------</span>
+    <span class="c1">#spatial frequency axis</span>
+    <span class="c1">#----------------------------</span>
+
+    <span class="n">kx_max</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">dx</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">ky_max</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">dy</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+
+    <span class="c1"># step</span>
+    <span class="n">dkx</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="p">(</span><span class="n">dx</span><span class="o">*</span><span class="p">(</span><span class="n">Nx</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="c1">#if odd-value data the max and min</span>
+    <span class="n">dky</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="p">(</span><span class="n">dy</span><span class="o">*</span><span class="p">(</span><span class="n">Ny</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="c1">#axes (for even-valued data, after fftshift...see example fft in MATLAB)</span>
+        <span class="n">kx</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">kx_max</span><span class="p">,</span> <span class="n">kx_max</span><span class="o">-</span><span class="n">dkx</span><span class="p">,</span> <span class="n">Nx</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1">#odd</span>
+        <span class="n">kx</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">kx_max</span><span class="p">,</span> <span class="n">kx_max</span><span class="p">,</span> <span class="n">Nx</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">Ny</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="c1">#axes (for even-valued data, after fftshift...see example fft in MATLAB)</span>
+        <span class="n">ky</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">ky_max</span><span class="p">,</span> <span class="n">ky_max</span><span class="o">-</span><span class="n">dky</span><span class="p">,</span> <span class="n">Ny</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1">#odd</span>
+        <span class="n">ky</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">ky_max</span><span class="p">,</span> <span class="n">ky_max</span><span class="p">,</span> <span class="n">Ny</span><span class="p">)</span>
+
+    <span class="n">dataW</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">field_2D</span><span class="p">)))</span>
+
+    <span class="n">dkx</span> <span class="o">=</span> <span class="n">kx</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">kx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">dky</span> <span class="o">=</span> <span class="n">ky</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">ky</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="c1">#windowing</span>
+    <span class="n">new_data</span><span class="o">=</span> <span class="n">field_2D</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">field_2D</span><span class="p">[:])</span> <span class="c1"># detrend</span>
+    <span class="n">dataW</span> <span class="o">=</span> <span class="n">new_data</span><span class="o">*</span><span class="n">hanningxy</span><span class="o">.</span><span class="n">T</span> <span class="c1"># windowing</span>
+
+    <span class="c1">#--------------------------</span>
+    <span class="c1"># Spectral analysis</span>
+    <span class="c1">#--------------------------</span>
+
+    <span class="c1">#Z_fft = np.fft.fft2(dataW, s=None)</span>
+    <span class="c1">#Z_shift = np.fft.fftshift(Z_fft)/(Nx*Ny)</span>
+    <span class="n">Z_shift</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft2</span><span class="p">(</span><span class="n">dataW</span><span class="p">))</span><span class="o">/</span> <span class="p">(</span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="p">)</span>
+
+    <span class="c1"># Calculate a 2D power spectrum</span>
+    <span class="n">psd2D_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Z_shift</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">dkx</span><span class="o">*</span><span class="n">dky</span><span class="p">)</span>
+    <span class="n">phase_spec</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">Z_shift</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">Z_shift</span><span class="p">))</span>
+
+    <span class="n">psd2D</span> <span class="o">=</span> <span class="n">psd2D_0</span><span class="o">*</span><span class="n">wc2xy</span>
+    <span class="n">Ekxky</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">psd2D</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;kx&#39;</span><span class="p">,</span> <span class="n">kx</span><span class="p">),</span>  <span class="p">(</span><span class="s1">&#39;ky&#39;</span><span class="p">,</span> <span class="n">ky</span><span class="p">)])</span>
+
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span><span class="s1">&#39;kx&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;kx&#39;</span><span class="p">,</span> <span class="n">kx</span><span class="p">),</span>
+                    <span class="s1">&#39;ky&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;ky&#39;</span><span class="p">,</span> <span class="n">ky</span><span class="p">),</span>
+                    <span class="p">})</span>
+
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;Ekxky&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ekxky</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_coords</span><span class="p">((</span><span class="s1">&#39;kx&#39;</span><span class="p">,</span> <span class="s1">&#39;ky&#39;</span><span class="p">))</span>
+
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;Ekxky&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;m^2/(rad/m)&#39;</span>
+
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;kx&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;rad/m&#39;</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;ky&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;rad/m&#39;</span>
+
+    <span class="k">return</span> <span class="n">ds</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">E_kxky_to_Ekth</span><span class="p">(</span><span class="n">E_kxky</span><span class="p">,</span> <span class="n">kx</span><span class="p">,</span> <span class="n">ky</span><span class="p">,</span> <span class="n">number_of_dirs</span> <span class="o">=</span> <span class="mi">24</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Purpose: Interpolate the (kx, ky) spectrum onto directional-wavenumber spectrum</span>
+<span class="sd">    inputs:</span>
+<span class="sd">    E_kxky: the 2D wavenumber spectrum</span>
+<span class="sd">    kx: the horizontal wavenumber (1D)</span>
+<span class="sd">    ky: the vertical wavenumber (1D)</span>
+<span class="sd">    </span>
+<span class="sd">    outputs:</span>
+<span class="sd">    dirspec: wavenumber-direction spectrum</span>
+<span class="sd">    dd_new, kk_new: 2D dir-wavenumber axes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">kx</span><span class="p">)</span>
+    <span class="n">dkx</span> <span class="o">=</span> <span class="n">kx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">kx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">k_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">kx</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    <span class="c1"># Number of directions that you want on the polar grid</span>
+    <span class="n">nd</span> <span class="o">=</span> <span class="n">number_of_dirs</span>
+    <span class="n">dd</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">nd</span>
+    <span class="c1"># Direction axis on the polar grid ranging from -pi to pi with dd increments</span>
+    <span class="n">d_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">dd</span><span class="p">)</span>
+    <span class="c1"># Polar grid to interpolate onto</span>
+    <span class="c1"># d_new = d_new0[number_of_dirs//2:]</span>
+
+    <span class="n">kk_new</span><span class="p">,</span> <span class="n">dd_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">k_new</span><span class="p">,</span> <span class="n">d_new</span><span class="p">)</span>
+
+    <span class="n">dirspec</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dd_new</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;theta&#39;</span><span class="p">,</span> <span class="n">d_new</span><span class="p">),</span>  <span class="p">(</span><span class="s1">&#39;K&#39;</span><span class="p">,</span> <span class="n">k_new</span><span class="p">)])</span>
+    
+    <span class="c1"># Be sure working with a good xarray format</span>
+    <span class="n">Ekxky</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">E_kxky</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ky&#39;</span><span class="p">,</span> <span class="s1">&#39;kx&#39;</span><span class="p">],</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ky&#39;</span><span class="p">:</span><span class="n">ky</span><span class="p">,</span> <span class="s1">&#39;kx&#39;</span><span class="p">:</span><span class="n">kx</span><span class="p">})</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nd</span><span class="p">):</span>
+        <span class="n">di</span> <span class="o">=</span> <span class="n">dd_new</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ki</span> <span class="o">=</span> <span class="n">k_new</span>
+        <span class="n">kx_int</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ki</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">di</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s1">&#39;K&#39;</span><span class="p">)</span>
+        <span class="n">ky_int</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ki</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">di</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s1">&#39;K&#39;</span><span class="p">)</span>
+        <span class="n">dirspec</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">Ekxky</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">ky</span><span class="o">=</span><span class="n">ky_int</span><span class="p">,</span> <span class="n">kx</span><span class="o">=</span><span class="n">kx_int</span><span class="p">)</span>
+
+    <span class="c1">#here we&#39;re multiplying by the jacobian of the transformation from cartesian to polar</span>
+    <span class="n">dirspec</span> <span class="o">=</span> <span class="n">dirspec</span> <span class="o">*</span> <span class="n">kk_new</span> 
+    
+    <span class="k">return</span> <span class="n">dirspec</span><span class="p">,</span> <span class="n">dd_new</span><span class="p">,</span> <span class="n">kk_new</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="start-the-two-dimensional-spectral-analysis">
+<h2>Start the two-dimensional spectral analysis<a class="headerlink" href="#start-the-two-dimensional-spectral-analysis" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dx</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">dy</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">data_for_fourier_analysis</span> <span class="o">=</span> <span class="n">sub_image</span><span class="o">.</span><span class="n">B02_10m</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">values</span>  <span class="c1"># The first dimension is flipped because the satellite has a descending track (latitudes decreases)</span>
+<span class="n">ds_spec_2d</span> <span class="o">=</span> <span class="n">two_dimensional_wave_spectrum</span><span class="p">(</span><span class="n">data_for_fourier_analysis</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span> <span class="c1"># Apply the 2D spectral analysis</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-the-wavenumber-spectrum">
+<h2>Plot the wavenumber spectrum<a class="headerlink" href="#plot-the-wavenumber-spectrum" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#############,</span>
+<span class="c1">#---White circles</span>
+<span class="c1">#############</span>
+<span class="n">radius_050m</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="p">(</span><span class="mf">50.</span><span class="p">)</span>
+<span class="n">radius_100m</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
+<span class="n">radius_200m</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="p">(</span><span class="mf">200.</span><span class="p">)</span>
+<span class="n">radius_500m</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="p">(</span><span class="mf">500.</span><span class="p">)</span>
+
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ds_spec_2d</span><span class="o">.</span><span class="n">Ekxky</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vmin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">.1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">.1</span><span class="p">])</span>
+<span class="n">circle1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">radius_050m</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">_b</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle1</span><span class="p">)</span>
+<span class="n">circle2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">radius_100m</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">_b</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle2</span><span class="p">)</span>
+<span class="n">circle3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">radius_200m</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">_b</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle3</span><span class="p">)</span>
+<span class="n">circle4</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">radius_500m</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">_b</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">radius_050m</span><span class="p">,</span><span class="s1">&#39;50 m&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">radius_100m</span><span class="p">,</span><span class="s1">&#39;100 m&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">radius_200m</span><span class="p">,</span><span class="s1">&#39;200 m&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">radius_500m</span><span class="p">,</span><span class="s1">&#39;500 m&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.012566370614359173, &#39;500 m&#39;)
+</pre></div>
+</div>
+<img alt="_images/7fbbb4c5830fe3b6da9d75318b101a7a5ece19049d2f763ec4d9a3a0aac186b8.png" src="_images/7fbbb4c5830fe3b6da9d75318b101a7a5ece19049d2f763ec4d9a3a0aac186b8.png" />
+</div>
+</div>
+<p>A diagonal line appears across the wavenumber domain, which in physical space would imply the presence of a highly energetic signal spanning all scales (from
+<span class="math notranslate nohighlight">\(\mathcal{O}\)</span>(10) km down to ~20 m). Such broadband, scale-invariant energy is physically unrealistic. The wave-field image shown above shows a discontinuity, most likely caused by the overlap region between two different detectors onboard Sentinel-2. A simple way to remove this artifact is to work with an image that does not include this sensor-transition area.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sub_image_cor</span> <span class="o">=</span> <span class="n">sub_image</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">longitude</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="n">latitude</span> <span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">sub_image_cor</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span> <span class="n">sub_image_cor</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span> <span class="n">sub_image_cor</span><span class="o">.</span><span class="n">B02_10m</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;binary_r&#39;</span><span class="p">,</span> <span class="n">vmin</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">1400</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Longitude [$^{\circ}$E]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Latitude [$^{\circ}$N]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="s1">&#39;box&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2a39ba6437b697c4ff64f71a395a458be87b43cf09e71277e11e2e0bd9668400.png" src="_images/2a39ba6437b697c4ff64f71a395a458be87b43cf09e71277e11e2e0bd9668400.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_spec_2d</span> <span class="o">=</span> <span class="n">two_dimensional_wave_spectrum</span><span class="p">(</span><span class="n">sub_image_cor</span><span class="o">.</span><span class="n">B02_10m</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ds_spec_2d</span><span class="o">.</span><span class="n">Ekxky</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vmin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">100_000</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">.1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="mf">.1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-0.1, 0.1)
+</pre></div>
+</div>
+<img alt="_images/eff574939cc35bb070f552f4f55434ff6a22835c431a094b68a0ae9635a0bb52.png" src="_images/eff574939cc35bb070f552f4f55434ff6a22835c431a094b68a0ae9635a0bb52.png" />
+</div>
+</div>
+</section>
+<section id="switch-from-carthesian-to-polar-coordinate">
+<h2>Switch from Carthesian to Polar coordinate<a class="headerlink" href="#switch-from-carthesian-to-polar-coordinate" title="Link to this heading">#</a></h2>
+<p>If we spot the maxima of the energy we can infer the dominant wavenumbers both along both <span class="math notranslate nohighlight">\(k_x\)</span> and <span class="math notranslate nohighlight">\(k_y\)</span>. If we know the component of the wavenumber vector, we can determine the module of the dominant wave wavenumber (and therefore the wavelength) as well as the dominant direction.</p>
+<p>Or we can transform the spectrum from the carthesian frame of coordinate to the polar frame of coordinate.</p>
+<div class="math notranslate nohighlight">
+\[E(k_x, k_y) \rightarrow E(k, \theta)\]</div>
+<p>Behind the transformation there is a matricial operator that I won’t go through but feel free to check in the code.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dirspec</span><span class="p">,</span> <span class="n">dd_new</span><span class="p">,</span> <span class="n">kk_new</span> <span class="o">=</span> <span class="n">E_kxky_to_Ekth</span><span class="p">(</span><span class="n">ds_spec_2d</span><span class="o">.</span><span class="n">Ekxky</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_spec_2d</span><span class="o">.</span><span class="n">kx</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_spec_2d</span><span class="o">.</span><span class="n">ky</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">number_of_dirs</span> <span class="o">=</span> <span class="mi">48</span><span class="p">)</span> <span class="c1"># switch the frame of coordinate</span>
+<span class="n">dth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dd_new</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="c1"># the directional step</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subplot_kw</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span><span class="s1">&#39;polar&#39;</span><span class="p">})</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">pcolor</span><span class="p">(</span><span class="n">dd_new</span><span class="p">,</span> <span class="n">kk_new</span><span class="p">,</span> <span class="n">dirspec</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.0018</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_theta_offset</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_theta_direction</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax_inset</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">.3</span><span class="p">,</span> <span class="mf">.3</span><span class="p">])</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">ax_inset</span><span class="o">.</span><span class="n">twiny</span><span class="p">()</span>
+<span class="n">ax_inset</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">kk_new</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">dirspec</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">dth</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">kk_new</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">dirspec</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="n">dth</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.0127</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span> <span class="p">[</span><span class="s1">&#39;6000&#39;</span><span class="p">,</span> <span class="s1">&#39;500&#39;</span><span class="p">,</span> <span class="s1">&#39;100&#39;</span><span class="p">,</span> <span class="s1">&#39;30&#39;</span><span class="p">])</span>
+
+<span class="n">ax_inset</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Wavenumber [rad/m]&#39;</span><span class="p">)</span>
+<span class="n">ax_inset</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;PSD [br$^</span><span class="si">{2}</span><span class="s1">$/rad/m]&#39;</span><span class="p">)</span>
+<span class="n">ax_inset</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;Azimuthal average&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Wavelength [m]&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;Wavelength [m]&#39;)
+</pre></div>
+</div>
+<img alt="_images/3acd9654a4f3d239148e1a0877076daa49578ab1512a2f4ca9e099c7ecb1c20e.png" src="_images/3acd9654a4f3d239148e1a0877076daa49578ab1512a2f4ca9e099c7ecb1c20e.png" />
+</div>
+</div>
+<p>The zeniths provide the wave wavenumbers and the azimuths the wave directions. By integrating the wave spectrum along direction yields the, what we call the omnidirectional spectrum <span class="math notranslate nohighlight">\(E(k)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idp_theta</span><span class="p">,</span> <span class="n">idp_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dirspec</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">dirspec</span><span class="p">))</span> <span class="c1"># Get dominant wave parameters</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The peak direction is equal to </span><span class="si">{</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">+</span><span class="n">dd_new</span><span class="p">[</span><span class="n">idp_theta</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="si">}</span><span class="s1"> deg&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The peak wavelength is equal to </span><span class="si">{</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">kk_new</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">idp_k</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s1"> m&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The peak direction is equal to 322.49999999999966 deg
+The peak wavelength is equal to 400.80321285140565 m
+</pre></div>
+</div>
+</div>
+</div>
+<p>The computed wave spectrum appears very noisy. To reduce this noise, one can apply a Welch-type approach by dividing the image into several overlapping boxes and averaging their individual spectra, rather than relying on a single window</p>
+<p>Using Sentinel-2 imagery, we can extract information on the wavefield’s dominant wavelength and direction. However, because the satellite does not measure the actual sea-surface elevation but only the brightness intensity of each pixel resulting from the relected sunlight, we cannot reliably estimate wave parameters such as the significant wave height (<span class="math notranslate nohighlight">\(H_s\)</span>). For instance, a naïve application of the elevation-based formulas yields an apparent <span class="math notranslate nohighlight">\(H_s\)</span> ~ 119 m which is clearly non-physical.</p>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -505,6 +874,24 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="harmonics_analysis.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Harmonic Analysis of a Tidal Signal and Forecast</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Xarray_tutorial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Some documentation aboout the Xarray Package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -520,9 +907,12 @@ document.write(`
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-analysis">Spectral analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-the-two-dimensional-spectral-analysis">Start the two-dimensional spectral analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-wavenumber-spectrum">Plot the wavenumber spectrum</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#switch-from-carthesian-to-polar-coordinate">Switch from Carthesian to Polar coordinate</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>

@@ -15,6 +15,15 @@ parts:
     - file: first_spectral_analyses-Correction
     - file: spectral_analysis_on_geo_record-Correction
     - file: directional_spectrum
+  - caption: Tidal Analysis
+    chapters:
+    - file: tidal_wave
+    - file: tidal_analysis
+    - file: harmonics_analysis
+    
+  - caption: Sentinel 2
+    chapters:
+    - file: sentinel_2
   - caption: Xarray
     chapters:
     - file: Xarray_tutorial
