@@ -30,14 +30,27 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-(sub_image*scale_factor).plot()
+dt = 0.5  # hours
+fs = 1/dt  # 2 samples/hour
+
+# FFT
+n = len(x)
+freq = np.fft.rfftfreq(n, d=dt)  # frequency in cycles per hour
+X = np.abs(np.fft.rfft(x))
+
+# M2 frequency
+f_M2 = 1 / 12.4206  # cycles per hour
 ------------------
 
 [31m---------------------------------------------------------------------------[39m
 [31mNameError[39m                                 Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[7][39m[32m, line 1[39m
-[32m----> [39m[32m1[39m (sub_image*[43mscale_factor[49m).plot()
+[36mCell[39m[36m [39m[32mIn[6][39m[32m, line 5[39m
+[32m      2[39m fs = [32m1[39m/dt  [38;5;66;03m# 2 samples/hour[39;00m
+[32m      4[39m [38;5;66;03m# FFT[39;00m
+[32m----> [39m[32m5[39m n = [38;5;28mlen[39m([43mx[49m)
+[32m      6[39m freq = np.fft.rfftfreq(n, d=dt)  [38;5;66;03m# frequency in cycles per hour[39;00m
+[32m      7[39m X = np.abs(np.fft.rfft(x))
 
-[31mNameError[39m: name 'scale_factor' is not defined
-NameError: name 'scale_factor' is not defined
+[31mNameError[39m: name 'x' is not defined
+NameError: name 'x' is not defined
 

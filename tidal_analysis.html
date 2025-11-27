@@ -60,6 +60,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tidal_analysis';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Harmonic Analysis of a Tidal Signal and Forecast" href="harmonics_analysis.html" />
+    <link rel="prev" title="Tidal Waves" href="tidal_wave.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -121,8 +123,6 @@
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -191,6 +191,16 @@
 <li class="toctree-l1"><a class="reference internal" href="first_spectral_analyses-Correction.html">First Spectral Analyses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spectral_analysis_on_geo_record-Correction.html">Spectral Analysis on Geophysical Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="directional_spectrum.html">Directional Wave spectrum</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tidal Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tidal_wave.html">Tidal Waves</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tide spectral analysis.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="harmonics_analysis.html">Harmonic Analysis of a Tidal Signal and Forecast</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sentinel 2</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sentinel_2.html">Spectral Analysis of Sentinel-2 image</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Xarray</span></p>
 <ul class="nav bd-sidenav">
@@ -461,7 +471,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_brest</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_brest</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -944,28 +954,13 @@ dl.xr-attrs {
   filter: drop-shadow(1px 1px 5px var(--xr-font-color2));
   stroke-width: 0.8px;
 }
-</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 518kB
-Dimensions:    (time: 43155)
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;time&#x27; ()&gt; Size: 8B
+array(&#x27;2024-01-01T00:10:00.000000000&#x27;, dtype=&#x27;datetime64[ns]&#x27;)
 Coordinates:
-  * time       (time) datetime64[ns] 345kB 2024-01-01 ... 2024-10-29
-Data variables:
-    LATITUDE   float32 4B ...
-    LONGITUDE  float32 4B ...
-    sea_level  (time) float32 173kB ...
+    time     datetime64[ns] 8B 2024-01-01T00:10:00
 Attributes:
-    title:           BREST
-    subtitle:        3
-    description:     Dataset containing observation groups for sources: [2]
-    history:         Created 20/10/25
-    conventions:     CF-1.7
-    time_system:     UTC
-    netcdf_version:  netCDF-4 classic model
-    institution:     Shom
-    contact:         refmar@shom.fr
-    references:      https://data.shom.fr/donnees/refmar/3</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-2807aada-a52e-49a5-b7cf-6df5bdb1c23e' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-2807aada-a52e-49a5-b7cf-6df5bdb1c23e' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 43155</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-b4fc4fba-2153-469b-8ee8-166a582c9616' class='xr-section-summary-in' type='checkbox'  checked><label for='section-b4fc4fba-2153-469b-8ee8-166a582c9616' class='xr-section-summary' >Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2024-01-01 ... 2024-10-29</div><input id='attrs-75d045ce-1318-46d7-a1e3-7a0e5732acd4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-75d045ce-1318-46d7-a1e3-7a0e5732acd4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-dcb16134-19a4-4758-afed-786dda3d84bd' class='xr-var-data-in' type='checkbox'><label for='data-dcb16134-19a4-4758-afed-786dda3d84bd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>axis :</span></dt><dd>T</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;2024-01-01T00:00:00.000000000&#x27;, &#x27;2024-01-01T00:10:00.000000000&#x27;,
-       &#x27;2024-01-01T00:20:00.000000000&#x27;, ..., &#x27;2024-10-28T23:40:00.000000000&#x27;,
-       &#x27;2024-10-28T23:50:00.000000000&#x27;, &#x27;2024-10-29T00:00:00.000000000&#x27;],
-      shape=(43155,), dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-718c3c44-9804-40b2-8919-1f4f90046e36' class='xr-section-summary-in' type='checkbox'  checked><label for='section-718c3c44-9804-40b2-8919-1f4f90046e36' class='xr-section-summary' >Data variables: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>LATITUDE</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-aefe9401-7b29-4de2-91e4-feb64f424c8e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-aefe9401-7b29-4de2-91e4-feb64f424c8e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4c2accf3-6c0f-487a-8244-e20095ce2da2' class='xr-var-data-in' type='checkbox'><label for='data-4c2accf3-6c0f-487a-8244-e20095ce2da2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_north</dd><dt><span>long_name :</span></dt><dd>latitude</dd><dt><span>valid_min :</span></dt><dd>-90.0</dd><dt><span>valid_max :</span></dt><dd>90.0</dd><dt><span>axis :</span></dt><dd>Y</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>LONGITUDE</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-1f53ba05-a427-4b1a-85ef-813c2ce31693' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1f53ba05-a427-4b1a-85ef-813c2ce31693' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9a775f85-b805-46e6-902e-58ac727275c7' class='xr-var-data-in' type='checkbox'><label for='data-9a775f85-b805-46e6-902e-58ac727275c7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees_east</dd><dt><span>long_name :</span></dt><dd>longitude</dd><dt><span>valid_min :</span></dt><dd>-180.0</dd><dt><span>valid_max :</span></dt><dd>180.0</dd><dt><span>axis :</span></dt><dd>X</dd></dl></div><div class='xr-var-data'><pre>[1 values with dtype=float32]</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>sea_level</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>...</div><input id='attrs-9ea9f918-2724-4f98-b0f4-3d7b632824d1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9ea9f918-2724-4f98-b0f4-3d7b632824d1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-153912c4-7389-4231-80af-cd9c0c69af81' class='xr-var-data-in' type='checkbox'><label for='data-153912c4-7389-4231-80af-cd9c0c69af81' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Donnees brutes temps differe/Raw data (delayed mode)</dd><dt><span>units :</span></dt><dd>m</dd><dt><span>processing_method :</span></dt><dd>filtered values</dd><dt><span>sea_level_datum :</span></dt><dd>chart datum</dd></dl></div><div class='xr-var-data'><pre>[43155 values with dtype=float32]</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e147a3ce-d3c0-4e2f-b99e-1bdb5512fdc4' class='xr-section-summary-in' type='checkbox'  ><label for='section-e147a3ce-d3c0-4e2f-b99e-1bdb5512fdc4' class='xr-section-summary' >Attributes: <span>(10)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>title :</span></dt><dd>BREST</dd><dt><span>subtitle :</span></dt><dd>3</dd><dt><span>description :</span></dt><dd>Dataset containing observation groups for sources: [2]</dd><dt><span>history :</span></dt><dd>Created 20/10/25</dd><dt><span>conventions :</span></dt><dd>CF-1.7</dd><dt><span>time_system :</span></dt><dd>UTC</dd><dt><span>netcdf_version :</span></dt><dd>netCDF-4 classic model</dd><dt><span>institution :</span></dt><dd>Shom</dd><dt><span>contact :</span></dt><dd>refmar@shom.fr</dd><dt><span>references :</span></dt><dd>https://data.shom.fr/donnees/refmar/3</dd></dl></div></li></ul></div></div></div></div>
+    long_name:  Time
+    axis:       T</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-obj-name'>&#x27;time&#x27;</div></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-b1dff2e1-a0cc-4860-8863-3b629bcc6dc1' class='xr-array-in' type='checkbox' checked><label for='section-b1dff2e1-a0cc-4860-8863-3b629bcc6dc1' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>2024-01-01T00:10:00</span></div><div class='xr-array-data'><pre>array(&#x27;2024-01-01T00:10:00.000000000&#x27;, dtype=&#x27;datetime64[ns]&#x27;)</pre></div></div></li><li class='xr-section-item'><input id='section-d47c0e94-7b74-4001-8690-afe4bc4ab918' class='xr-section-summary-in' type='checkbox'  checked><label for='section-d47c0e94-7b74-4001-8690-afe4bc4ab918' class='xr-section-summary' >Coordinates: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>time</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>datetime64[ns]</div><div class='xr-var-preview xr-preview'>2024-01-01T00:10:00</div><input id='attrs-40e070be-bcf2-48ae-b966-8c9dc415f2e2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-40e070be-bcf2-48ae-b966-8c9dc415f2e2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0b3df5ae-7a5f-4bf0-bc48-415c054d92ac' class='xr-var-data-in' type='checkbox'><label for='data-0b3df5ae-7a5f-4bf0-bc48-415c054d92ac' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>axis :</span></dt><dd>T</dd></dl></div><div class='xr-var-data'><pre>array(&#x27;2024-01-01T00:10:00.000000000&#x27;, dtype=&#x27;datetime64[ns]&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-11d39b3e-9c06-4179-bce9-49d5a201b7c4' class='xr-section-summary-in' type='checkbox'  checked><label for='section-11d39b3e-9c06-4179-bce9-49d5a201b7c4' class='xr-section-summary' >Attributes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>long_name :</span></dt><dd>Time</dd><dt><span>axis :</span></dt><dd>T</dd></dl></div></li></ul></div></div></div></div>
 </div>
 <p>Plot the Signal. Look at the range of the water elevation difference between the two stations</p>
 <div class="cell docutils container">
@@ -1144,6 +1139,24 @@ The mean dt for the Macinaggio s dataset is 900187541177 nanoseconds
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="tidal_wave.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tidal Waves</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="harmonics_analysis.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Harmonic Analysis of a Tidal Signal and Forecast</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
